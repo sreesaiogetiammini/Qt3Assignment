@@ -1,24 +1,27 @@
+
 QT+=widgets \
     quick
 HEADERS += \
-    ageValidator.h \
     bucket.h \
     circularButton.h \
-    clouds.h \
     firstscreen.h \
     gamescene.h \
-    passwordValidator.h \
+    loginscreen.h \
     signinscene.h \
-    signupscene.h
+    signupscene.h \
+    signupscreen.h \
+    water.h
 
 SOURCES += \
     bucket.cpp \
-    clouds.cpp \
     firstscreen.cpp \
     gamescene.cpp \
+    loginscreen.cpp \
     main.cpp \
     signinscene.cpp \
-    signupscene.cpp
+    signupscene.cpp \
+    signupscreen.cpp \
+    water.cpp
 
 RESOURCES += \
     Resources.qrc
