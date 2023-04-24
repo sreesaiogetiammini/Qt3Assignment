@@ -73,7 +73,7 @@ public:
 
     QPushButton *reset;
     QPushButton *submit;
-    QPushButton *login;
+    QPushButton *mainMenu;
     QDialogButtonBox *signUpPageButtonBox;
     QLabel *profilePicLabel;
     QPushButton *choosePicButton;

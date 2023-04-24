@@ -33,8 +33,8 @@ public:
 
 
     QGraphicsProxyWidget *signInProxyWidget;
-    QWidget *signUpWidget;
-    QPushButton *mainpage;
+    QWidget *signInWidget;
+    QPushButton *mainmenu;
     QPushButton *reset;
     QPushButton *login;
     QDialogButtonBox *signInPageButtonBox;

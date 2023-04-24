@@ -46,11 +46,11 @@ SignUpScene::SignUpScene()
     signUpPageButtonBox = new QDialogButtonBox(Qt:: Horizontal);
     reset = new QPushButton("Reset");
     submit = new QPushButton("Submit");
-    login = new QPushButton("login");
+    mainMenu = new QPushButton("Main Menu");
     submit->setEnabled(false);
     setFirstScreenQPushButtonProperties(reset);
     setFirstScreenQPushButtonProperties(submit);
-    setFirstScreenQPushButtonProperties(login);
+    setFirstScreenQPushButtonProperties(mainMenu);
 
     // Set up validators for the mandatory QLineEdit widgets
     QValidator* nonEmptyValidator = new QRegularExpressionValidator(QRegularExpression(".+"), this);
@@ -81,6 +81,7 @@ SignUpScene::SignUpScene()
 
     signUpPageButtonBox->addButton(reset, QDialogButtonBox::ResetRole);
     signUpPageButtonBox->addButton(submit, QDialogButtonBox::AcceptRole);
+    signUpPageButtonBox->addButton(mainMenu, QDialogButtonBox::AcceptRole);
     connect(submit, &QPushButton::clicked, this, &SignUpScene::submitButtonClicked);
     connect(reset, &QPushButton::clicked, this, &SignUpScene::resetButtonClicked);
 
@@ -98,7 +99,7 @@ SignUpScene::SignUpScene()
     errorLabel->setStyleSheet("color: red");
     errorLabel->setVisible(false); // hide the label initially
 
-    // Add the errorLabel widget to the grid layout
+
 
 
 

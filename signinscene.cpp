@@ -28,16 +28,41 @@ SignInScene::SignInScene()
     signInPageButtonBox = new QDialogButtonBox(Qt:: Horizontal);
     reset = new QPushButton("Reset");
     login = new QPushButton("Login");
-    mainpage = new QPushButton("Main Menu");
+    mainmenu = new QPushButton("Main Menu");
     login->setEnabled(false);
     setFirstScreenQPushButtonProperties(reset);
-    setFirstScreenQPushButtonProperties(mainpage);
+    setFirstScreenQPushButtonProperties(mainmenu);
     setFirstScreenQPushButtonProperties(login);
-
+    signInPageButtonBox->addButton(reset, QDialogButtonBox::ResetRole);
+    signInPageButtonBox->addButton(login, QDialogButtonBox::AcceptRole);
+    signInPageButtonBox->addButton(mainmenu, QDialogButtonBox::AcceptRole);
     connect(login, &QPushButton::clicked, this, &SignInScene::loginButtonClicked);
     connect(reset, &QPushButton::clicked, this, &SignInScene::resetButtonClicked);
 
+    // Create a QLabel widget to display error messages
+    errorLabel = new QLabel("Error message");
+    errorLabel->setStyleSheet("color: red");
+    errorLabel->setVisible(false); // hide the label initially
 
+    // Set up the layout
+    signInWidget = new QWidget();
+    QGridLayout *gridLayout = new QGridLayout;
+    gridLayout->addWidget(userNameL, 1, 0);
+    gridLayout->addWidget(userNameLE, 1, 1);
+    gridLayout->addWidget(PasswordL, 2, 0);
+    gridLayout->addWidget(PasswordLE, 2, 1);
+    gridLayout->addWidget(signInPageButtonBox, 4, 0, 1, 3);
+    gridLayout->addWidget(errorLabel, 3, 1, 1, 2);
+    gridLayout->addItem(new QSpacerItem(50, 10), 0, 2, 1, 1);
+    QVBoxLayout *verticalLayout = new QVBoxLayout(signInWidget);
+    verticalLayout->addLayout(gridLayout);
+
+    // Create a QGraphicsProxyWidget from the QWidget
+    signInProxyWidget = this->addWidget(signInWidget);
+
+    // Set the position of the QVBoxLayout
+    QPointF newPos((sceneRect().width()/2 - signInWidget->width())+100 , sceneRect().height()/8);
+    signInProxyWidget->setPos(newPos);
 
 }
 
