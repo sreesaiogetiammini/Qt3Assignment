@@ -6,5 +6,6 @@
         <file>musicoff.png</file>
         <file>musicon.png</file>
         <file>water.gif</file>
+        <file>users.json</file>
     </qresource>
 </RCC>

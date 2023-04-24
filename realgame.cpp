@@ -1,6 +1,6 @@
 #include "realgame.h"
 
-RealGame::RealGame()
+RealGame::RealGame(int level)
 {
     this->constantElementDisplay();
 
@@ -12,16 +12,19 @@ RealGame::RealGame()
         addItem(cloud1);
         cloud1->setPos(0,0);
         cloud1->move();
-        water *drop = new water();
+        water *drop = new water(bucketImg, level);
         drop->setPos(rand()%700, 0);
         addItem(drop);
     });
-    timer->start(2000);
+    timer->start(1000 * level);
 }
 
 
 void RealGame::keyPressEvent(QKeyEvent* event)
 {
+//    if(flag == 0){
+//        return;
+//    }
     qreal moveBy = 30;
     switch (event->key()) {
     case Qt::Key_Left:
@@ -54,6 +57,8 @@ void RealGame::keyPressEvent(QKeyEvent* event)
         if (item->type() == water::Type) {
             // Remove droplet from scene and delete it
             this->removeItem(item);
+            bucketImg -> increaseScore();
+            qInfo() << bucketImg -> score;
             delete item;
         }
         else if (item->type() == Clouds::Type) {

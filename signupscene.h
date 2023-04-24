@@ -24,6 +24,7 @@
 #include "ageValidator.h"
 #include <QValidator>
 #include <QRegularExpressionValidator>
+#include "user.h"
 
 class SignUpScene: public QGraphicsScene
 {

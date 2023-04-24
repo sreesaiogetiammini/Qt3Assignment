@@ -25,11 +25,14 @@ public:
     QPushButton *MusicOn;
     QPushButton *MusicOff;
     QGraphicsProxyWidget *musicButtonsProxyWidget;
+//    QLabel score;
+    int flag;
+
 
 
 
 public:
-    RealGame();
+    RealGame(int level);
     void keyPressEvent(QKeyEvent *event);
     void  constantElementDisplay();
 public slots:

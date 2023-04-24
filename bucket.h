@@ -14,5 +14,9 @@ class bucket : public QObject, public QGraphicsPixmapItem
 
 public:
     bucket(QGraphicsItem *parent = nullptr);
+    int score = 0;
+    int misses = 0;
+    void increaseScore();
+    void countMiss();
 };
 #endif // BUCKET_H

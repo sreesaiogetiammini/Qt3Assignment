@@ -7,4 +7,12 @@ bucket::bucket(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
     setPos(500, 700);
 }
 
+void bucket :: increaseScore() {
+    score++;
+}
+
+void bucket :: countMiss (){
+    misses++;
+}
+
 

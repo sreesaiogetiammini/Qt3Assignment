@@ -12,6 +12,7 @@ HEADERS += \
     realgame.h \
     signinscene.h \
     signupscene.h \
+    user.h \
     water.h
 
 SOURCES += \
@@ -25,6 +26,7 @@ SOURCES += \
     realgame.cpp \
     signinscene.cpp \
     signupscene.cpp \
+    user.cpp \
     water.cpp
 
 RESOURCES += \

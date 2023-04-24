@@ -9,6 +9,12 @@
 #include "playerscene.h"
 #include "realgame.h"
 
+enum difficulty {
+    easy = 3,
+    medium = 2,
+    hard = 1
+};
+
 int main(int argc , char** argv){
 
     qreal screenHeight = 1400;
@@ -19,7 +25,6 @@ int main(int argc , char** argv){
     SignUpScene* signupScene = new SignUpScene();
     SignInScene* signinScene = new SignInScene();
     PlayerScene* playerScene = new PlayerScene();
-    RealGame* realgameScene = new RealGame();
 
 
     QGraphicsView* view = new QGraphicsView();
@@ -80,12 +85,18 @@ int main(int argc , char** argv){
 
      // Connect the button to a slot that switches the scene
      QObject::connect(easyGameButton, &QPushButton::clicked, [=]() {
+         difficulty level = easy;
+          RealGame* realgameScene = new RealGame(level);
          view->setScene(realgameScene);
      });
      QObject::connect(mediumGameButton, &QPushButton::clicked, [=]() {
+         difficulty level = medium;
+         RealGame* realgameScene = new RealGame(level);
          view->setScene(realgameScene);
      });
      QObject::connect(hardGameButton, &QPushButton::clicked, [=]() {
+         difficulty level = hard;
+         RealGame* realgameScene = new RealGame(level);
          view->setScene(realgameScene);
      });
 

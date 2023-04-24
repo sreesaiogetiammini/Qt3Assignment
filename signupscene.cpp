@@ -191,6 +191,11 @@ void SignUpScene::submitButtonClicked(){
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
     errorLabel->setVisible(true); //
+
+    user *newUser = new user();
+
+    newUser->signup(userName, password, firstName, lastName, doB);
+
     return;
 
 }
