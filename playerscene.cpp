@@ -9,11 +9,22 @@ PlayerScene::PlayerScene(user* player)
     bool birthday = player->isBirthday();
     // Set up the labels
     QString userName =  player->username;
+
+    QJsonObject playerjson;
     if(userName.isEmpty()){
        welcomePlayerL = new QLabel("Welcome Guest");
     }
     else{
         welcomePlayerL = new QLabel("Welcome "+userName);
+
+       foreach (const QJsonValue &value, player->usersArray){
+           QJsonObject userObject = value.toObject();
+           if(userObject["username"].toString() == userName){
+               playerjson = userObject;
+               break;
+           }
+       }
+
     }
 
     profilePicLabel = new QLabel();
@@ -48,23 +59,12 @@ PlayerScene::PlayerScene(user* player)
     playerPageButtonBox->addButton(Medium, QDialogButtonBox::AcceptRole);
     playerPageButtonBox->addButton(Easy, QDialogButtonBox::AcceptRole);
 
+    QJsonArray jsonArray = playerjson["scores"].toArray();
     QVector<user::scoreStruct> scores = player->scores ;
-    int scoresSize = scores.size();
+    int scoresSize = jsonArray.size();
+    qInfo() << "Player Score" << scoresSize;
     QTableWidget *table = new QTableWidget(scoresSize, 3);
     table->setWindowTitle("Player Scores");
-//    QSize size;
-
-//    int numRows = 3;
-//    int numCols = scoresSize;
-//    int width = table->width();
-//    int height = table->height();
-
-//    // Calculate the size of each cell based on the table's size and number of rows and columns
-//    int cellWidth = width / numCols;
-//    int cellHeight = height / numRows;
-//    size.setWidth(cellWidth);
-//    size.setHeight(cellHeight);
-//    table->setColumnWidth(cellWidth,cellHeight);
 
     // Set headers for each column
     QStringList headers;

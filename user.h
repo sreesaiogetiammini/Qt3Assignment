@@ -22,6 +22,7 @@ public:
     QString username;
     QDate dob;
     bool isBirthday();
+    QJsonObject userObject;
     QJsonValue QVectorToJsonValue(const QVector<scoreStruct>& scores);
 
 

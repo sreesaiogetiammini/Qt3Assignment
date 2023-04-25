@@ -95,6 +95,7 @@ void user :: loadDataFromJson(){
         usersArray = jsonDocument.array();
         file.close();
     }
+
 }
 
 
@@ -171,6 +172,9 @@ bool user :: isBirthday(){
     if (this ->dob.month() == currentDate.month() && this -> dob.day() == currentDate.day()) {
         qDebug() << "Happy Birthday!";
         return true;
+    }
+    else {
+        qDebug() << this ->dob.month() << this -> dob.day();
     }
 
     return false;
