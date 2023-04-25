@@ -7,17 +7,20 @@
 PlayerScene::PlayerScene(user* player)
 {
     this->constantElementDisplay();
-   // QString playerName = player->usersArray
-//    QJsonObject userObject;
-//    foreach (const QJsonValue &value, player->usersArray){
-//        QJsonObject  userlo   = value.toObject();
-//        if(userlo["username"].toString() == player->)
-//    }
+
+
+
 
     bool birthday = true;
     // Set up the labels
-    QString guest = "Guest";
-    welcomePlayerL = new QLabel("Welcome "+guest);
+    QString userName =  player->username;
+    if(userName.isEmpty()){
+
+       welcomePlayerL = new QLabel("Welcome Guest");
+    }
+    else{
+        welcomePlayerL = new QLabel("Welcome "+userName);
+    }
 
     profilePicLabel = new QLabel();
     profilePicLabel->setFixedSize(100, 100);
@@ -51,22 +54,23 @@ PlayerScene::PlayerScene(user* player)
     playerPageButtonBox->addButton(Medium, QDialogButtonBox::AcceptRole);
     playerPageButtonBox->addButton(Easy, QDialogButtonBox::AcceptRole);
 
-    int scoresSize = 10;
+    QVector<user::scoreStruct> scores = player->scores ;
+    int scoresSize = scores.size();
     QTableWidget *table = new QTableWidget(scoresSize, 3);
     table->setWindowTitle("Player Scores");
-    QSize size;
+//    QSize size;
 
-    int numRows = 3;
-    int numCols = scoresSize;
-    int width = table->width();
-    int height = table->height();
+//    int numRows = 3;
+//    int numCols = scoresSize;
+//    int width = table->width();
+//    int height = table->height();
 
-    // Calculate the size of each cell based on the table's size and number of rows and columns
-    int cellWidth = width / numCols;
-    int cellHeight = height / numRows;
-    size.setWidth(cellWidth);
-    size.setHeight(cellHeight);
-    table->setColumnWidth(cellWidth,cellHeight);
+//    // Calculate the size of each cell based on the table's size and number of rows and columns
+//    int cellWidth = width / numCols;
+//    int cellHeight = height / numRows;
+//    size.setWidth(cellWidth);
+//    size.setHeight(cellHeight);
+//    table->setColumnWidth(cellWidth,cellHeight);
 
     // Set headers for each column
     QStringList headers;
@@ -77,7 +81,16 @@ PlayerScene::PlayerScene(user* player)
     QTableWidgetItem *item;
     for (int row = 0; row < scoresSize; row++) {
         for (int col = 0; col < 3; col++) {
-            item = new QTableWidgetItem(QString("Row %1, Col %2").arg(row+1).arg(col+1));
+            if(col == 0){
+                item = new QTableWidgetItem(QString(scores.at(row).date.toString()));
+            }
+            if(col == 1){
+                item = new QTableWidgetItem(QString(scores.at(row).level));
+            }
+
+            if(col == 2){
+                item = new QTableWidgetItem( QString::number(scores.at(row).score));
+            }
             table->setItem(row, col, item);           // Set border for each cell
             table->item(row, col)->setBackground(QColor(Qt::white));
             table->item(row, col)->setTextAlignment(Qt::AlignCenter);
@@ -94,7 +107,9 @@ PlayerScene::PlayerScene(user* player)
     gridLayout->addWidget(welcomePlayerL, 0, 1);
     gridLayout->addWidget(profilePicLabel, 1, 1);
     gridLayout->addWidget(playerPageButtonBox, 3, 0, 1, 3);
-    //gridLayout->addWidget(table, 4, 0, 1, 3);
+    if(scores.size()!= 0 && !userName.isEmpty()){
+         gridLayout->addWidget(table, 4, 0, 1, 3);
+    }
     gridLayout->addItem(new QSpacerItem(50, 10), 0, 2, 1, 1);
     QVBoxLayout *verticalLayout = new QVBoxLayout(playerWidget);
     verticalLayout->addLayout(gridLayout);
