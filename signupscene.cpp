@@ -155,7 +155,8 @@ void SignUpScene::chooseProfilePic() {
         profilePicLabel->setPixmap(profilePic);
 
         // Save image to a file
-        QString savePath = QFileDialog::getSaveFileName(nullptr, "Save Image", filename, "Images (*.png *.jpg *.bmp)");
+        QString newFileName = userNameLE->text().toLower()+".png";
+        QString savePath = QFileDialog::getSaveFileName(nullptr, "Save Image", newFileName, "Images (*.png *.jpg *.bmp)");
         if (!savePath.isEmpty()) {
             image.save(savePath);
         }
@@ -207,6 +208,7 @@ void SignUpScene::submitButtonClicked(){
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
     errorLabel->setVisible(true); //
+    this->resetButtonClicked();
     submit->setEnabled(false);
     return;
 
