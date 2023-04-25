@@ -170,6 +170,10 @@ int main(int argc , char** argv){
 
     });
 
+     QPushButton* exitButton = firstScreen->Exit;
+    QObject::connect(exitButton, &QPushButton::clicked, &app, &QCoreApplication::quit);
+
+
     // Set the fixed size of the view
     view->setFixedSize(screenHeight, screenWidth);
     // Prevent scroll bars from appearing

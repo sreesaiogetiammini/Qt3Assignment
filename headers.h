@@ -42,5 +42,6 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QAudioDevice>
 #include <QTimer>
 #endif // HEADERS_H

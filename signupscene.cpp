@@ -391,24 +391,33 @@ void SignUpScene::constantElementDisplay(){
 
 
     auto musicOnClick =  [&]() {
-        audioOutput->setVolume(80);
+        if (player->playbackState() == QMediaPlayer::StoppedState) {
+            player->setPosition(0);
+        }
         player->play();
         MusicOn->setEnabled(false);
         MusicOff->setEnabled(true);
+        qDebug() << "Audio started playback";
+
     };
 
     auto musicOffClick =  [&]() {
         player->pause();
         MusicOff->setEnabled(false);
         MusicOn->setEnabled(true);
+        qDebug() << "Audio paused playback";
     };
 
-    // Create a QMediaPlayer instance
-    player = new QMediaPlayer();
-    audioOutput = new QAudioOutput();
+
+    player= new QMediaPlayer;
+    audioOutput = new QAudioOutput;
+    audioOutput->setVolume(100.0); // set the volume level// set the output devic
     player->setAudioOutput(audioOutput);
     connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
     player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+    audioOutput->setVolume(50);
+    player->play();
+
     connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
     connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
 
