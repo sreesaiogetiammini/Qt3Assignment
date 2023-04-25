@@ -132,6 +132,7 @@ void user :: updateScore(int score, int level){
 }
 
 void user :: deleteUser(){
+
     QFile file("users.json");
     if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
         qDebug() << "Failed to open users.json";
@@ -215,3 +216,5 @@ QVector<user::scoreStruct> user :: JsonValueToQVector(const QJsonValue &jsonValu
     }
     return scores;
 }
+
+

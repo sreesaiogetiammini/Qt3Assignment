@@ -129,6 +129,7 @@ void RealGame::constantElementDisplay(){
 
     // Create the bucket object and set its pixmap
     bucketImg = new bucket();
+    addWidget(bucketImg -> scoreLabel);
     // Set the bucket object as focusable
     bucketImg->setFlag(QGraphicsItem::ItemIsFocusable);
     addItem(bucketImg);
