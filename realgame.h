@@ -8,6 +8,7 @@
 #include "clouds.h"
 #include "water.h"
 #include "imageWidget.h"
+#include "user.h"
 
 class RealGame : public QGraphicsScene
 {
@@ -23,6 +24,9 @@ public:
     bucket *bucketImg;
     QGraphicsProxyWidget *gameOverProxyWidget;
     QPushButton *backButton;
+    user* realPlayer;
+
+
 
 //    QLabel score;
     int flag;
@@ -35,7 +39,7 @@ void backbuttonClicked();
 
 public:
     //RealGame(int level , user* user);
-    RealGame(int level);
+    RealGame(int level, user* realPlayer);
     void keyPressEvent(QKeyEvent *event);
     void  constantElementDisplay();
 

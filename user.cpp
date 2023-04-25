@@ -51,6 +51,7 @@ bool user :: login(QString &username, QString &password){
                             newScore.score = scoreObject["score"].toInt();
                             newScore.date = QDate::fromString(scoreObject["date"].toString(), "yyyy-MM-dd");
                             newScore.level = scoreObject["level"].toString();
+                            scores.append(newScore);
                     }
                 }
                 return true;
@@ -63,7 +64,6 @@ bool user :: login(QString &username, QString &password){
 
 void user :: saveDataToJson(){
     QJsonDocument jsonDocument;
-    qInfo() << usersArray;
     jsonDocument.setArray(usersArray);
     QByteArray bytes = jsonDocument.toJson( QJsonDocument::Indented );
 
@@ -103,7 +103,7 @@ void user :: updateScore(int score, int level){
     scoreStruct newScore;
     newScore.score = score;
 
-    if(level == 1) newScore.level = "easy";
+    if(level == 3) newScore.level = "easy";
     else if(level == 2) newScore.level = "medium";
     else newScore.level = "hard";
 
@@ -121,6 +121,20 @@ void user :: updateScore(int score, int level){
     while(scores.size() > 10){
         scores.pop_back();
     }
+// QJsonValueRef jsonValue : usersArray
+    for (int i = 0; i < usersArray.size(); i++) {
+        if (usersArray[i].toObject()["username"] == this -> username) {
+            // Update the value
+            QJsonObject userObject = usersArray[i].toObject();
+            userObject.insert("scores", QVectorToJsonValue(scores));
+            usersArray[i] = userObject;
+//            break;
+        }
+    }
+
+//    saveDataToJson();
+//    loadDataFromJson();
+    qInfo() << usersArray;
 }
 
 void user :: deleteUser(){
@@ -158,4 +172,19 @@ bool user :: isBirthday(){
     }
 
     return false;
+}
+
+QJsonValue user :: QVectorToJsonValue(const QVector<scoreStruct>& scores)
+{
+    QJsonArray jsonArray;
+
+    for (const scoreStruct& score : scores) {
+        QJsonObject jsonObject;
+        jsonObject["date"] = score.date.toString();
+        jsonObject["level"] = score.level;
+        jsonObject["score"] = score.score;
+        jsonArray.append(jsonObject);
+    }
+
+    return QJsonValue::fromVariant(jsonArray.toVariantList());
 }
