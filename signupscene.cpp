@@ -140,6 +140,7 @@ SignUpScene::SignUpScene()
 
 
 void SignUpScene::chooseProfilePic() {
+
     filename = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
 
     QImage image;
@@ -160,6 +161,25 @@ void SignUpScene::chooseProfilePic() {
         }
     } else {
         qDebug() << "Failed to load image.";
+
+//    QString filepath = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
+//    if (filepath != "") {
+//        QPixmap profilePic(filepath);
+//        QSize size(50, 50);
+
+//        profilePic = profilePic.scaled(size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+//        profilePicLabel->setPixmap(profilePic);
+//        profilePicLabel->setScaledContents(true);
+//        QString newFileName = userNameLE->text().toLower()+".png"; // specify the new file name here
+//        QString destFilePath = ":/Resources/" + newFileName;
+//        if(QFile::copy(filepath, destFilePath)) {
+//            qDebug() << "File copied to resources directory with new file name: " << destFilePath;
+//        }
+//        else {
+//            qDebug() << "Failed to copy file to resources directory.";
+//        }
+
+
     }
 
 //    if (filename != "") {
@@ -179,7 +199,7 @@ void SignUpScene::submitButtonClicked(){
     QString firstName = firstNameLE->text();
     QString lastName = lastNameLE->text();
     QString doB = doBcalendar->selectedDate().toString("dd-MM-yyyy");
-    QString userName = userNameLE->text();
+    QString userName = userNameLE->text().toLower();
     QString password = setPasswordLE->text();
     QString confirmPassword = confirmPasswordLE->text();
     user *newUser = new user(userName);

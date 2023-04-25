@@ -8,8 +8,8 @@ bucket::bucket(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
     setPos(500, 700);
     scoreLabel = new QLabel;
     scoreLabel->setText("Misses: 0");
-    scoreLabel->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    scoreLabel->setStyleSheet("QLabel { background-color : rgba(255, 255, 255, 50); border-radius: 5px; padding: 5px; color : black;}");
+    scoreLabel->setAlignment(Qt::AlignRight | Qt::AlignTop);
+    scoreLabel->setStyleSheet("QLabel { background-color : rgba(255, 255, 255, 50); border-radius: 5px; padding: 5px; color : black; width:50px; height:50px}");
 //    scene() -> addWidget(scoreLabel);
 }
 
