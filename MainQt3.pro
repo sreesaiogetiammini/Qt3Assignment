@@ -7,6 +7,7 @@ HEADERS += \
     clouds.h \
     firstscreen.h \
     gamescene.h \
+    headers.h \
     imageWidget.h \
     playerscene.h \
     realgame.h \
