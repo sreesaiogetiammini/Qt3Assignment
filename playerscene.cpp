@@ -24,7 +24,7 @@ PlayerScene::PlayerScene(user* player)
     profilePicLabel->setStyleSheet("border-radius: 50px; border: 2px solid gray;");
     profilePicLabel->setAlignment(Qt::AlignCenter);
 
-    QString filename = "";
+    QString filename = player->username+".png";
     if (filename != "") {
         QPixmap profilePic(filename);
         profilePic = profilePic.scaled(profilePicLabel->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
