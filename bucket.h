@@ -7,6 +7,7 @@
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
 #include <QGraphicsScene>
+#include "user.h"
 
 
 class bucket : public QObject, public QGraphicsPixmapItem
@@ -25,10 +26,12 @@ public slots:
 
 public:
     bucket(QGraphicsItem *parent = nullptr);
+    bucket(user* realPlayer);
     QLabel* scoreLabel;
     int score = 0;
     int misses = 0;
     void increaseScore();
     void countMiss();
+    user* realPlayer;
 };
 #endif // BUCKET_H

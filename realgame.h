@@ -8,6 +8,7 @@
 #include "clouds.h"
 #include "water.h"
 #include "imageWidget.h"
+#include "user.h"
 
 class RealGame : public QGraphicsScene
 {
@@ -21,6 +22,7 @@ public:
     QMediaPlayer* player ;
     QAudioOutput *audioOutput;
     bucket *bucketImg;
+    user* realPlayer;
 
 
 //    QLabel score;
@@ -31,7 +33,7 @@ public:
 
 public:
     //RealGame(int level , user* user);
-    RealGame(int level);
+    RealGame(int level, user* realPlayer);
     void keyPressEvent(QKeyEvent *event);
     void  constantElementDisplay();
     void  displaygameOver();
