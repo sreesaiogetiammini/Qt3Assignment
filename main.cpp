@@ -77,7 +77,7 @@ int main(int argc , char** argv){
             QPushButton* easyGameButton = playerScene->Easy;
             QPushButton* mediumGameButton = playerScene->Medium;
             QPushButton* hardGameButton = playerScene->Hard;
-
+            QPushButton* guestMainButton = playerScene->mainMenu;
             // Connect the button to a slot that switches the scene
             QObject::connect(easyGameButton, &QPushButton::clicked, [=]() {
                 difficulty level = easy;
@@ -93,6 +93,9 @@ int main(int argc , char** argv){
                 difficulty level = hard;
                 RealGame* realgameScene = new RealGame(level);
                 view->setScene(realgameScene);
+            });
+            QObject::connect(guestMainButton, &QPushButton::clicked, [=]() {
+                view->setScene(firstScreen);
             });
 
         }

@@ -7,11 +7,7 @@
 PlayerScene::PlayerScene(user* player)
 {
     this->constantElementDisplay();
-
-
-
-
-    bool birthday = true;
+    bool birthday = player->isBirthday();
     // Set up the labels
     QString userName =  player->username;
     if(userName.isEmpty()){
