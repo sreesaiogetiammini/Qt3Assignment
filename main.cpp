@@ -5,6 +5,7 @@
 #include "signinscene.h"
 #include "playerscene.h"
 #include "realgame.h"
+#include "user.h"
 #include <iostream>
 
 enum difficulty {
@@ -22,7 +23,11 @@ int main(int argc , char** argv){
     FirstScreen* firstScreen = new FirstScreen();
     SignUpScene* signupScene = new SignUpScene();
     SignInScene* signinScene = new SignInScene();
-    PlayerScene* playerScene = new PlayerScene();
+    QString user2 = "user";
+    user* guest = new user();
+    user* loginUser = new user();
+    PlayerScene* guestPlayerScene = new PlayerScene(guest);
+    PlayerScene* playerScene = new PlayerScene(loginUser);
 
 
     QGraphicsView* view = new QGraphicsView();
@@ -38,6 +43,9 @@ int main(int argc , char** argv){
     QPushButton* signInMainButton = signinScene->mainmenu;
     QPushButton* guestMainButton = playerScene->mainMenu;
 
+
+
+
     QPushButton* loginButton = signinScene->login;
 
 
@@ -48,17 +56,26 @@ int main(int argc , char** argv){
     });
 
     QObject::connect(signInSwitchButton, &QPushButton::clicked, [=]() {
+
         view->setScene(signinScene);
 
     });
 
     QObject::connect(guestSwitchButton, &QPushButton::clicked, [=]() {
         view->setScene(playerScene);
-
     });
 
     QObject::connect(loginButton, &QPushButton::clicked, [=]() {
-        view->setScene(playerScene);
+        QString userName = signinScene->userNameLE->text();
+        QString password = signinScene->PasswordLE->text();
+        user* loginUser = new user();
+        if(loginUser->login(userName,password)){
+            view->setScene(playerScene);
+        }
+        else{
+            view->setScene(signinScene);
+        }
+
     });
 
      // Connect the button to a slot that switches the scene

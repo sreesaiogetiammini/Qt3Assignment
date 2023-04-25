@@ -28,6 +28,8 @@ public:
     QPushButton *MusicOn;
     QPushButton *MusicOff;
     QGraphicsProxyWidget *musicButtonsProxyWidget;
+    QMediaPlayer* player ;
+    QAudioOutput *audioOutput;
 
 
     QLabel* firstNameL;

@@ -4,6 +4,7 @@
 
 #pragma once
 #include "headers.h"
+#include "user.h"
 
 class user
 {
@@ -16,7 +17,6 @@ public:
         QDate date;
         QString level;
     };
-
     QVector<scoreStruct> scores;
     void updateScore(int score, int level);
 
@@ -26,6 +26,7 @@ private:
     void loadDataFromJson();
 public:
     QJsonArray usersArray;
+    QString username;
 };
 
 

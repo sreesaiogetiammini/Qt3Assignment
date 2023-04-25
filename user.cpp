@@ -4,7 +4,7 @@
 
 
 
-user :: user (){
+user::user(){
     loadDataFromJson();
     scores = QVector<scoreStruct>();
 }
@@ -48,7 +48,7 @@ bool user :: login(QString &username, QString &password){
                             QJsonObject scoreObject = jsonValue.toObject();
                             newScore.score = scoreObject["score"].toInt();
                             newScore.date = QDate::fromString(scoreObject["date"].toString(), "yyyy-MM-dd");
-                           // newScore.level = scoreObject["level"].toString();
+                            newScore.level = scoreObject["level"].toString();
                     }
                 }
                 return true;
