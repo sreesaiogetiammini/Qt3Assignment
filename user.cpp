@@ -101,9 +101,9 @@ void user :: updateScore(int score, int level){
     scoreStruct newScore;
     newScore.score = score;
 
-//    if(level == 1) newScore.level = "easy";
-//    else if(level == 2) newScore.level = "medium";
-//    else newScore.level = "hard";
+    if(level == 1) newScore.level = "easy";
+    else if(level == 2) newScore.level = "medium";
+    else newScore.level = "hard";
 
     newScore.date = QDate::currentDate();
 

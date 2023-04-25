@@ -14,7 +14,7 @@ public:
     struct scoreStruct {
         int score;
         QDate date;
-        int level;
+        QString level;
     };
 
     QVector<scoreStruct> scores;
