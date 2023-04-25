@@ -9,7 +9,7 @@ class user
 {
 public:
     user(QString username);
-    void signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob, QString &filename);
+    void signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob);
     bool login(QString &username, QString &password);
     struct scoreStruct {
         int score;
