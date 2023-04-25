@@ -3,6 +3,11 @@
 
 #pragma once
 #include "headers.h"
+#include "bucket.h"
+#include "gameOverImage.h"
+#include "clouds.h"
+#include "water.h"
+#include "imageWidget.h"
 
 class RealGame : public QGraphicsScene
 {

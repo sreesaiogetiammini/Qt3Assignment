@@ -43,16 +43,4 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
-
-
-#include "bucket.h"
-#include "water.h"
-#include "clouds.h"
-#include "user.h"
-#include "signinscene.h"
-#include "signupscene.h"
-#include "realgame.h"
-#include "playerscene.h"
-#include "imageWidget.h"
-
 #endif // HEADERS_H

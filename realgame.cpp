@@ -1,6 +1,6 @@
 #pragma once
-#include "headers.h"
 #include "realgame.h"
+
 
 RealGame::RealGame(int level)
 {
@@ -19,6 +19,21 @@ RealGame::RealGame(int level)
         addItem(drop);
     });
     timer->start(1000 * level);
+
+    if(bucketImg->misses == 10){
+        gameOver *imageWidget = new gameOver();
+        // Create a QGraphicsProxyWidget and set its widget to the ImageWidget
+        QGraphicsProxyWidget *birthdayProxyWidget = new QGraphicsProxyWidget();
+        birthdayProxyWidget->setWidget(imageWidget);
+        this->addItem(birthdayProxyWidget);
+        QPointF newPos((sceneRect().width() - imageWidget->width())-200, sceneRect().height()/8);
+        birthdayProxyWidget->setPos(newPos);
+        connect(imageWidget, &ImageWidget::close, [imageWidget, this,birthdayProxyWidget]() {
+            this->removeItem(birthdayProxyWidget);
+            // Delete the ImageWidget instance
+            delete imageWidget;
+        });
+    }
 }
 
 

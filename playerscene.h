@@ -3,6 +3,9 @@
 
 #pragma once
 #include "headers.h"
+#include "user.h"
+#include "bucket.h"
+#include "imageWidget.h"
 
 class PlayerScene : public QGraphicsScene
 {

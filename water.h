@@ -4,6 +4,7 @@
 
 #pragma once
 #include "headers.h"
+#include "bucket.h"
 
 class water : public QObject, public QGraphicsPixmapItem
 {

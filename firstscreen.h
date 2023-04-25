@@ -3,6 +3,7 @@
 
 #pragma once
 #include "headers.h"
+#include "bucket.h"
 
 class FirstScreen : public QGraphicsScene
 {

@@ -9,5 +9,6 @@
         <file>users.json</file>
         <file>birthday.png</file>
         <file>music.mp3</file>
+        <file>gameover.png</file>
     </qresource>
 </RCC>

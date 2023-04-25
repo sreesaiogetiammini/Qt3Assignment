@@ -3,6 +3,8 @@
 
 #pragma once
 #include "headers.h"
+#include "bucket.h"
+#include "user.h"
 
 class SignUpScene: public QGraphicsScene
 {

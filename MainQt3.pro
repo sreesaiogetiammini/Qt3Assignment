@@ -6,6 +6,7 @@ HEADERS += \
     bucket.h \
     clouds.h \
     firstscreen.h \
+    gameOverImage.h \
     headers.h \
     imageWidget.h \
     playerscene.h \
