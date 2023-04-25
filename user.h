@@ -9,7 +9,7 @@ class user
 {
 public:
     user(QString username);
-    void signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob);
+    void signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob, QString &filename);
     bool login(QString &username, QString &password);
     struct scoreStruct {
         int score;
@@ -20,6 +20,9 @@ public:
     void updateScore(int score, int level);
     void deleteUser();
     QString username;
+    QDate dob;
+    bool isBirthday();
+
 
 
 private:

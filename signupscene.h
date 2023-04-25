@@ -64,6 +64,8 @@ public:
     QLabel *profilePicLabel;
     QPushButton *choosePicButton;
 
+    QString filename;
+
 };
 
 #endif // SIGNUPSCENE_H

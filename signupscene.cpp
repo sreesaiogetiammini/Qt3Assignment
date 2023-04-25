@@ -136,20 +136,37 @@ SignUpScene::SignUpScene()
     QPointF newPos((sceneRect().width()/2 - signUpWidget->width())+ 300 , sceneRect().height()/8);
     signUpProxyWidget->setPos(newPos);
 
-
-
-
-
 }
 
 
 void SignUpScene::chooseProfilePic() {
-    QString filename = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
-    if (filename != "") {
+    filename = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
+
+    QImage image;
+
+    if (image.load(filename)) {
+        // Display image in a QLabel
+//        QLabel label;
+//        label.setPixmap(QPixmap::fromImage(image));
+//        label.show();
         QPixmap profilePic(filename);
         profilePic = profilePic.scaled(profilePicLabel->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         profilePicLabel->setPixmap(profilePic);
+
+        // Save image to a file
+        QString savePath = QFileDialog::getSaveFileName(nullptr, "Save Image", filename, "Images (*.png *.jpg *.bmp)");
+        if (!savePath.isEmpty()) {
+            image.save(savePath);
+        }
+    } else {
+        qDebug() << "Failed to load image.";
     }
+
+//    if (filename != "") {
+//        QPixmap profilePic(filename);
+//        profilePic = profilePic.scaled(profilePicLabel->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+//        profilePicLabel->setPixmap(profilePic);
+//    }
 }
 
 void SignUpScene::setFirstScreenQPushButtonProperties(QPushButton* button){
@@ -166,7 +183,7 @@ void SignUpScene::submitButtonClicked(){
     QString password = setPasswordLE->text();
     QString confirmPassword = confirmPasswordLE->text();
     user *newUser = new user(userName);
-    newUser->signup(userName, password, firstName, lastName, doB);
+    newUser->signup(userName, password, firstName, lastName, doB, filename);
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
     errorLabel->setVisible(true); //
