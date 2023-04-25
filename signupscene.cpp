@@ -208,8 +208,6 @@ void SignUpScene::submitButtonClicked(){
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
     errorLabel->setVisible(true); //
-    this->resetButtonClicked();
-    errorLabel->setVisible(false);
     submit->setEnabled(false);
     return;
 
