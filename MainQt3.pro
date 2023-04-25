@@ -1,13 +1,13 @@
-
 QT+=widgets \
-    quick
+    quick \
+    multimedia
+
 HEADERS += \
     bucket.h \
-    circularButton.h \
     clouds.h \
     firstscreen.h \
     gamescene.h \
-    loginscreen.h \
+    imageWidget.h \
     playerscene.h \
     realgame.h \
     signinscene.h \
@@ -20,7 +20,6 @@ SOURCES += \
     clouds.cpp \
     firstscreen.cpp \
     gamescene.cpp \
-    loginscreen.cpp \
     main.cpp \
     playerscene.cpp \
     realgame.cpp \

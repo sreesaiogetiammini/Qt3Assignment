@@ -32,6 +32,7 @@ public:
 
 
 public:
+    //RealGame(int level ,QDate date, user* user);
     RealGame(int level);
     void keyPressEvent(QKeyEvent *event);
     void  constantElementDisplay();

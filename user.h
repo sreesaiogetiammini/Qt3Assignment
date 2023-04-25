@@ -10,7 +10,6 @@ class user
 {
 public:
     user();
-
     void signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob);
     bool login(QString &username, QString &password);
     QVector<int> scores;
@@ -20,6 +19,7 @@ public:
 private:
     void saveDataToJson();
     void loadDataFromJson();
+public:
     QJsonArray usersArray;
 };
 

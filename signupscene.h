@@ -22,9 +22,10 @@
 #include "firstscreen.h"
 #include "passwordValidator.h"
 #include "ageValidator.h"
-#include <QValidator>
 #include <QRegularExpressionValidator>
 #include "user.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 class SignUpScene: public QGraphicsScene
 {
@@ -34,9 +35,13 @@ public:
     void setFirstScreenQPushButtonProperties(QPushButton* button);
     void chooseProfilePic();
     void submitButtonClicked();
-     void resetButtonClicked();
+    void resetButtonClicked();
+    void mainMenuButtonClicked();
+    bool FirstNameLastNameValidatons();
+    bool DateOfBirthValidations();
+    bool passwordValidation();
+    bool userNameValidations();
     void updateButtonState(QLineEdit* lineEdit);
-    bool isPasswordValid(const QString& password);
 
 public:
 
@@ -61,6 +66,7 @@ public:
     QLineEdit* lastNameLE;
     QLineEdit* userNameLE;
     QLineEdit* setPasswordLE;
+    QLabel *passwordLabel;
     QLineEdit* confirmPasswordLE;
     QCalendarWidget *doBcalendar;
 

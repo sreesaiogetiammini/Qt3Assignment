@@ -1,9 +1,10 @@
 #include "signupscene.h"
+#include <iostream>
+
 
 
 SignUpScene::SignUpScene()
 {
-
     this->constantElementDisplay();
     // Set up the labels
     firstNameL = new QLabel("First Name*:");
@@ -13,15 +14,16 @@ SignUpScene::SignUpScene()
     userNameL = new QLabel("UserName*:");
     setPasswordL = new QLabel("Password*: ");
     confirmPasswordL = new QLabel("Re-Type Password*");
-    // Set up the line edits and spin box
-    firstNameLE = new QLineEdit;
-    lastNameLE = new QLineEdit;
-    doBcalendar = new QCalendarWidget();
 
-    // Set the minimum and maximum selectable dates
+    firstNameLE = new QLineEdit;
+    firstNameLE->setMouseTracking(false);
+    lastNameLE = new QLineEdit;
+    lastNameLE->setFocusPolicy(Qt::ClickFocus);
+
+    doBcalendar = new QCalendarWidget();
     doBcalendar->setMinimumDate(QDate(1900, 1, 1));
-    doBcalendar->setMaximumDate(QDate::currentDate().addYears(-5));
-    doBcalendar->setFocusPolicy(Qt::NoFocus);
+    doBcalendar->setMaximumDate(QDate::currentDate());
+    doBcalendar->setSelectedDate(QDate());
 
     // Set up the gender radio buttons
     genderGB = new QGroupBox("");
@@ -33,15 +35,38 @@ SignUpScene::SignUpScene()
     genderGB->setLayout(genderLayout);
 
     userNameLE = new QLineEdit;
+    userNameLE->setFocusPolicy(Qt::ClickFocus);
     setPasswordLE = new QLineEdit;
+    setPasswordLE->setFocusPolicy(Qt::ClickFocus);
     confirmPasswordLE = new QLineEdit;
+    confirmPasswordLE->setFocusPolicy(Qt::ClickFocus);
     setPasswordLE->setEchoMode(QLineEdit::Password);
     confirmPasswordLE->setEchoMode(QLineEdit::Password);
 
 
     // Set the validator for the QLineEdit
-    QLabel *passwordLabel = new QLabel("Password should contain at least 8 characters  one number, upper and lower case letters.");
+    passwordLabel = new QLabel("Password should contain at least 8 characters  one number, upper and lower case letters.");
     passwordLabel->setStyleSheet("QLabel { color : blue; }");
+
+
+    // Create a slot that checks if all mandatory fields are filled and enable/disable the push button accordingly
+    auto checkMandatoryFields = [&]() {
+        bool allFilled = this->FirstNameLastNameValidatons() &&
+                         this->DateOfBirthValidations() &&
+                         this->userNameValidations() &&
+                         this->passwordValidation();
+        submit->setEnabled(allFilled);
+    };
+
+
+    // Connect the textChanged() signals of the mandatory QLineEdit widgets to the checkMandatoryFields() slot
+    connect(firstNameLE, &QLineEdit::textChanged, this, checkMandatoryFields);
+    connect(lastNameLE, &QLineEdit::textChanged, this, checkMandatoryFields);
+    connect(doBcalendar, &QCalendarWidget::selectionChanged, this, checkMandatoryFields);
+    connect(userNameLE, &QLineEdit::textChanged, this, checkMandatoryFields);
+    connect(setPasswordLE, &QLineEdit::textChanged, this, checkMandatoryFields);
+    connect(confirmPasswordLE, &QLineEdit::textChanged, this, checkMandatoryFields);
+
 
     signUpPageButtonBox = new QDialogButtonBox(Qt:: Horizontal);
     reset = new QPushButton("Reset");
@@ -52,38 +77,15 @@ SignUpScene::SignUpScene()
     setFirstScreenQPushButtonProperties(submit);
     setFirstScreenQPushButtonProperties(mainMenu);
 
-    // Set up validators for the mandatory QLineEdit widgets
-    QValidator* nonEmptyValidator = new QRegularExpressionValidator(QRegularExpression(".+"), this);
-    firstNameLE->setValidator(nonEmptyValidator);
-    lastNameLE->setValidator(nonEmptyValidator);
-    userNameLE->setValidator(nonEmptyValidator);
-    setPasswordLE->setValidator(new PasswordValidator());
-    confirmPasswordLE->setValidator(new PasswordValidator());
-
-    // Create a slot that checks if all mandatory fields are filled and enable/disable the push button accordingly
-    auto checkMandatoryFields = [&]() {
-        bool allFilled = firstNameLE->hasAcceptableInput() &&
-                         lastNameLE->hasAcceptableInput() &&
-                         userNameLE->hasAcceptableInput() &&
-                         doBcalendar->selectedDate().isValid() &&
-                         setPasswordLE->hasAcceptableInput() &&
-                         confirmPasswordLE->hasAcceptableInput();
-        submit->setEnabled(allFilled);
-    };
-
-    // Connect the textChanged() signals of the mandatory QLineEdit widgets to the checkMandatoryFields() slot
-    connect(firstNameLE, &QLineEdit::textChanged, this, checkMandatoryFields);
-    connect(lastNameLE, &QLineEdit::textChanged, this, checkMandatoryFields);
-    connect(doBcalendar, &QCalendarWidget::selectionChanged, this, checkMandatoryFields);
-    connect(userNameLE, &QLineEdit::textChanged, this, checkMandatoryFields);
-    connect(setPasswordLE, &QLineEdit::textChanged, this, checkMandatoryFields);
-    connect(confirmPasswordLE, &QLineEdit::textChanged, this, checkMandatoryFields);
 
     signUpPageButtonBox->addButton(reset, QDialogButtonBox::ResetRole);
     signUpPageButtonBox->addButton(submit, QDialogButtonBox::AcceptRole);
     signUpPageButtonBox->addButton(mainMenu, QDialogButtonBox::AcceptRole);
     connect(submit, &QPushButton::clicked, this, &SignUpScene::submitButtonClicked);
     connect(reset, &QPushButton::clicked, this, &SignUpScene::resetButtonClicked);
+    connect(mainMenu, &QPushButton::clicked, this, &SignUpScene::mainMenuButtonClicked);
+
+
 
     profilePicLabel = new QLabel("Profile Pic");
     profilePicLabel->setFixedSize(100, 100);
@@ -95,13 +97,8 @@ SignUpScene::SignUpScene()
     connect(choosePicButton, &QPushButton::clicked, this, &SignUpScene::chooseProfilePic);
 
     // Create a QLabel widget to display error messages
-    errorLabel = new QLabel("Error message");
-    errorLabel->setStyleSheet("color: red");
+    errorLabel = new QLabel("");
     errorLabel->setVisible(false); // hide the label initially
-
-
-
-
 
     // Set up the layout
     signUpWidget = new QWidget();
@@ -123,8 +120,9 @@ SignUpScene::SignUpScene()
     gridLayout->addWidget(setPasswordLE, 8, 1);
     gridLayout->addWidget(confirmPasswordL, 9, 0);
     gridLayout->addWidget(confirmPasswordLE, 9, 1);
-    gridLayout->addWidget(signUpPageButtonBox, 10, 0, 1, 3);
     gridLayout->addWidget(errorLabel, 10, 1, 1, 2);
+    gridLayout->addWidget(signUpPageButtonBox, 11, 0, 1, 3);
+
     gridLayout->addItem(new QSpacerItem(50, 10), 0, 2, 1, 1);
     QVBoxLayout *verticalLayout = new QVBoxLayout(signUpWidget);
     verticalLayout->addLayout(gridLayout);
@@ -135,6 +133,10 @@ SignUpScene::SignUpScene()
     // Set the position of the QVBoxLayout
     QPointF newPos((sceneRect().width()/2 - signUpWidget->width())+ 300 , sceneRect().height()/8);
     signUpProxyWidget->setPos(newPos);
+
+
+
+
 
 }
 
@@ -161,69 +163,137 @@ void SignUpScene::submitButtonClicked(){
     QString userName = userNameLE->text();
     QString password = setPasswordLE->text();
     QString confirmPassword = confirmPasswordLE->text();
-    bool allChecked = false;
-
-    // Validate the input data and display an error message if needed
-    if (firstName.isEmpty() || lastName.isEmpty()) {
-        errorLabel->setText("Please enter first and last name");
-        errorLabel->setVisible(true); // show the error label
-        return;
-    }
-
-    if(!doBcalendar->selectedDate().isValid()) {
-        errorLabel->setText("Please enter valid Date of Birth");
-        errorLabel->setVisible(true); // show the error label
-        return;
-    }
-
-    if(doB.isEmpty()){
-        errorLabel->setText("Please enter Valid Date of Birth");
-        errorLabel->setVisible(true); // show the error label
-        return;
-    }
-
-    if (password.isEmpty() || confirmPassword.isEmpty()) {
-        errorLabel->setText("Please enter password , it is blank");
-        errorLabel->setVisible(true); // show the error label
-        return;
-    }
-
+    user *newUser = new user();
+    newUser->signup(userName, password, firstName, lastName, doB);
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
     errorLabel->setVisible(true); //
-
-    user *newUser = new user();
-
-    newUser->signup(userName, password, firstName, lastName, doB);
-
+    submit->setEnabled(false);
     return;
 
 }
 
 
-void SignUpScene::resetButtonClicked(){
 
+
+void SignUpScene::resetButtonClicked(){
     firstNameLE->clear();
     lastNameLE->clear();
     userNameLE->clear();
     doBcalendar->clearFocus();
     setPasswordLE->clear();
     confirmPasswordLE->clear();
+    return;
 }
 
-void SignUpScene::updateButtonState(QLineEdit* lineEdit) {
-    // Check if the input fields are filled and enable or disable the button accordingly
-    if (lineEdit->text().isEmpty()){
-        submit->setEnabled(false);
-    } else {
-        submit->setEnabled(true);
+void SignUpScene::mainMenuButtonClicked(){
+     this->resetButtonClicked();
+}
+
+
+
+bool SignUpScene::FirstNameLastNameValidatons(){
+    QString firstName = firstNameLE->text();
+    QString lastName = lastNameLE->text();
+    if (firstName.isEmpty() || lastName.isEmpty()) {
+        errorLabel->setText("Please enter first and last name");
+        errorLabel->setStyleSheet("color: red");
+        errorLabel->setVisible(true); // show the error label
+        return false;
+    }
+
+    else {
+        QRegularExpression regex("^[a-zA-Z]+([ '-][a-zA-Z]+)*$");
+        bool validCheck = regex.match(firstName).hasMatch() && regex.match(lastName).hasMatch() ;
+        if(!validCheck){
+            errorLabel->setText("First Name or Last Name are not Valid");
+            errorLabel->setStyleSheet("color: red");
+            errorLabel->setVisible(true); // show the error label
+            return false;
+        }
+        errorLabel->setVisible(false);
+        return true;
     }
 }
 
+bool SignUpScene::DateOfBirthValidations(){
+    QDate selectedDate = doBcalendar->selectedDate();
+    if (selectedDate.isNull() || selectedDate == QDate::currentDate() || selectedDate > QDate::currentDate().addYears(-5) ) {
+        errorLabel->setText("Please select a valid date of birth (you must be at least 5 years old)");
+        errorLabel->setStyleSheet("color: red");
+        errorLabel->setVisible(true); // show the error label
+        doBcalendar->setSelectedDate(QDate());
+        return false;
+    }
+    else {
+        errorLabel->setVisible(false);
+        return true;
+    }
+}
 
-bool SignUpScene::isPasswordValid(const QString& password) {
-    QRegularExpression re("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).+");
-    return re.match(password).hasMatch();
+bool SignUpScene::passwordValidation(){
+    QString password1 = setPasswordLE->text();
+    QString password2 = confirmPasswordLE->text();
+    // Check for password match
+    if (password1 != password2) {
+        errorLabel->setText("Passwords do not match.");
+        errorLabel->setStyleSheet("color: red");
+        errorLabel->setVisible(true); // show the error label
+        return false;
+    }
+    // Check for password strength
+    else {
+        QRegularExpression regex("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
+        if (regex.match(password1).hasMatch()) {
+            errorLabel->setVisible(false);
+            passwordLabel->setVisible(false);
+            return true;
+        }
+        else {
+            passwordLabel->setStyleSheet("color: red");
+            errorLabel->setVisible(false); // show the error label
+            return false;
+        }
+    }
+}
+
+bool SignUpScene::userNameValidations(){
+    QString userNameText = userNameLE->text().toLower();
+    if (userNameText.isEmpty()) {
+        errorLabel->setText("Please enter UserName");
+        errorLabel->setStyleSheet("color: red");
+        errorLabel->setVisible(true);
+        return false;
+    }
+
+    else {
+        QRegularExpression regex("^[a-zA-Z0-9_]{4,20}$");
+        bool validCheck = regex.match(userNameText).hasMatch() ;
+        if(!validCheck){
+            errorLabel->setText("Please enter Valid UserName");
+            errorLabel->setStyleSheet("color: red");
+            errorLabel->setVisible(true);
+            return false;
+        }
+        else {
+            userNameLE->setText(userNameText);
+            user* loginUser = new user();
+            QJsonArray jsonArray = loginUser->usersArray;
+            for (const QJsonValue &value : jsonArray) {
+                QJsonObject obj = value.toObject();
+                QString existingUsername = obj.value("username").toString();
+                if (existingUsername == userNameText) {
+                    errorLabel->setText("UserName :"+userNameText+" already used please use other ");
+                    errorLabel->setStyleSheet("color: red");
+                    errorLabel->setVisible(true);
+                    return false;
+                }
+            }
+
+        }
+    }
+    errorLabel->setVisible(false);
+    return true;
 }
 
 
@@ -269,6 +339,8 @@ void SignUpScene::constantElementDisplay(){
     // Set the bucket object as the focus item
     bucketImg->setFocus();
 
+
+
     MusicOn = new QPushButton();
     QIcon icon(":/musicon.png"); // create QIcon object with image path
     MusicOn->setIcon(icon); // set the icon to the button
@@ -302,6 +374,26 @@ void SignUpScene::constantElementDisplay(){
     musicButtonsProxyWidget = this->addWidget(musicWidget);
     QPointF newPos2((sceneRect().width() - musicWidget->width()), 0);
     musicButtonsProxyWidget->setPos(newPos2);
+
+    // Create a QMediaPlayer instance
+    QMediaPlayer* player = new QMediaPlayer();
+    QAudioOutput *audioOutput = new QAudioOutput();
+    player->setAudioOutput(audioOutput);
+    player->setSource(QUrl::fromLocalFile("music.mp3"));
+
+
+
+    // Create a slot that checks if all mandatory fields are filled and enable/disable the push button accordingly
+    auto musicOn = [&]() {
+         audioOutput->setVolume(50);
+         player->play();
+    };
+
+    auto musicOff = [&]() {
+         player->pause();
+    };
+    connect(MusicOn, &QPushButton::clicked, this, musicOn);
+    connect(MusicOff, &QPushButton::clicked, this, musicOff);
 }
 
 

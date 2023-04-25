@@ -9,6 +9,7 @@ class PlayerScene : public QGraphicsScene
 public:
     PlayerScene();
     void constantElementDisplay();
+    void  displayBirthDayGreeting();
     void setFirstScreenQPushButtonProperties(QPushButton *button);
 
 
@@ -33,7 +34,8 @@ public:
     QDialogButtonBox *playerPageButtonBox;
     QGraphicsProxyWidget *playerProxyWidget;
     QWidget *playerWidget;
-
+    QPushButton *closeBirthdayButton;
+     QGraphicsProxyWidget *birthdayProxyWidget;
 
 };
 
