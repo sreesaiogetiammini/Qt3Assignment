@@ -2,6 +2,7 @@
 #define BUCKET_H
 
 
+#include "QtWidgets/qlabel.h"
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QKeyEvent>
@@ -14,6 +15,7 @@ class bucket : public QObject, public QGraphicsPixmapItem
 
 public:
     bucket(QGraphicsItem *parent = nullptr);
+    QLabel* scoreLabel;
     int score = 0;
     int misses = 0;
     void increaseScore();

@@ -8,7 +8,7 @@
 class user
 {
 public:
-    user();
+    user(QString username);
     void signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob);
     bool login(QString &username, QString &password);
     struct scoreStruct {
@@ -19,6 +19,8 @@ public:
 
     QVector<scoreStruct> scores;
     void updateScore(int score, int level);
+    void deleteUser();
+    QString username;
 
 
 private:

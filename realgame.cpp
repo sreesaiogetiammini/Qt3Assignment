@@ -109,6 +109,7 @@ void RealGame::constantElementDisplay(){
     addItem(bucketImg);
     // Set the bucket object as the focus item
     bucketImg->setFocus();
+    addWidget(bucketImg -> scoreLabel);
 
 
 

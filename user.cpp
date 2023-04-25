@@ -4,9 +4,10 @@
 
 
 
-user :: user (){
+user :: user (QString username){
     loadDataFromJson();
     scores = QVector<scoreStruct>();
+    this -> username = username;
 }
 
 void user::signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob){
@@ -42,8 +43,6 @@ bool user :: login(QString &username, QString &password){
                     QJsonArray jsonArray = userObject["scores"].toArray();
                     for (const QJsonValue& jsonValue : jsonArray)
                     {
-
-//                            scores.append(jsonValue.toInt());
                             scoreStruct newScore;
                             QJsonObject scoreObject = jsonValue.toObject();
                             newScore.score = scoreObject["score"].toInt();
@@ -121,3 +120,27 @@ void user :: updateScore(int score, int level){
     }
 }
 
+void user :: deleteUser(){
+    QFile file("users.json");
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qDebug() << "Failed to open users.json";
+        return;
+    }
+
+    QByteArray userData = file.readAll();
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(userData);
+    QJsonArray usersArray = jsonDoc.array();
+
+    // Iterate through the users and remove the user with matching username
+    for (int i = 0; i < usersArray.size(); ++i) {
+        QJsonObject user = usersArray.at(i).toObject();
+        QString storedUsername = user["username"].toString();
+        if (storedUsername == username) {
+            usersArray.removeAt(i);
+            file.resize(0);
+            file.write(jsonDoc.toJson());
+            file.close();
+            return;
+        }
+    }
+}

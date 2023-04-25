@@ -165,7 +165,7 @@ void SignUpScene::submitButtonClicked(){
     QString userName = userNameLE->text();
     QString password = setPasswordLE->text();
     QString confirmPassword = confirmPasswordLE->text();
-    user *newUser = new user();
+    user *newUser = new user(userName);
     newUser->signup(userName, password, firstName, lastName, doB);
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
@@ -279,7 +279,7 @@ bool SignUpScene::userNameValidations(){
         }
         else {
             userNameLE->setText(userNameText);
-            user* loginUser = new user();
+            user* loginUser = new user(userNameText);
             QJsonArray jsonArray = loginUser->usersArray;
             for (const QJsonValue &value : jsonArray) {
                 QJsonObject obj = value.toObject();

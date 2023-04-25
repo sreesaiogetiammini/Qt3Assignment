@@ -70,7 +70,7 @@ void SignInScene::loginButtonClicked(){
         errorLabel->setVisible(true); // show the error label
         return;
     }
-    user* loginUser = new user();
+    user* loginUser = new user(userName);
     if(loginUser->login(userName,password))
     {
         errorLabel->setText("Login Successful");
