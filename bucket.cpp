@@ -23,7 +23,6 @@ void bucket :: countMiss (){
     scoreLabel->setText("Misses: " + QString::number(misses));
     if(misses == 10){
         delete this;
-        return;
     }
 }
 

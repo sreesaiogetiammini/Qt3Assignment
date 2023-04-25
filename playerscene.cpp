@@ -7,14 +7,9 @@
 PlayerScene::PlayerScene(user* player)
 {
     this->constantElementDisplay();
-   // QString playerName = player->usersArray
-//    QJsonObject userObject;
-//    foreach (const QJsonValue &value, player->usersArray){
-//        QJsonObject  userlo   = value.toObject();
-//        if(userlo["username"].toString() == player->)
-//    }
 
-    bool birthday = true;
+    bool birthday = player->isBirthday();
+
     // Set up the labels
     QString guest = "Guest";
     welcomePlayerL = new QLabel("Welcome "+guest);
