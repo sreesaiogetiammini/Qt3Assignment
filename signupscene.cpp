@@ -136,32 +136,57 @@ SignUpScene::SignUpScene()
     QPointF newPos((sceneRect().width()/2 - signUpWidget->width())+ 300 , sceneRect().height()/8);
     signUpProxyWidget->setPos(newPos);
 
-
-
-
-
 }
 
 
 void SignUpScene::chooseProfilePic() {
-    QString filepath = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
-    if (filepath != "") {
-        QPixmap profilePic(filepath);
-        QSize size(50, 50);
 
-        profilePic = profilePic.scaled(size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    filename = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
+
+    QImage image;
+
+    if (image.load(filename)) {
+        // Display image in a QLabel
+//        QLabel label;
+//        label.setPixmap(QPixmap::fromImage(image));
+//        label.show();
+        QPixmap profilePic(filename);
+        profilePic = profilePic.scaled(profilePicLabel->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         profilePicLabel->setPixmap(profilePic);
-        profilePicLabel->setScaledContents(true);
-        QString newFileName = userNameLE->text().toLower()+".png"; // specify the new file name here
-        QString destFilePath = ":/Resources/" + newFileName;
-        if(QFile::copy(filepath, destFilePath)) {
-            qDebug() << "File copied to resources directory with new file name: " << destFilePath;
+
+        // Save image to a file
+        QString savePath = QFileDialog::getSaveFileName(nullptr, "Save Image", filename, "Images (*.png *.jpg *.bmp)");
+        if (!savePath.isEmpty()) {
+            image.save(savePath);
         }
-        else {
-            qDebug() << "Failed to copy file to resources directory.";
-        }
+    } else {
+        qDebug() << "Failed to load image.";
+
+//    QString filepath = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
+//    if (filepath != "") {
+//        QPixmap profilePic(filepath);
+//        QSize size(50, 50);
+
+//        profilePic = profilePic.scaled(size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+//        profilePicLabel->setPixmap(profilePic);
+//        profilePicLabel->setScaledContents(true);
+//        QString newFileName = userNameLE->text().toLower()+".png"; // specify the new file name here
+//        QString destFilePath = ":/Resources/" + newFileName;
+//        if(QFile::copy(filepath, destFilePath)) {
+//            qDebug() << "File copied to resources directory with new file name: " << destFilePath;
+//        }
+//        else {
+//            qDebug() << "Failed to copy file to resources directory.";
+//        }
+
 
     }
+
+//    if (filename != "") {
+//        QPixmap profilePic(filename);
+//        profilePic = profilePic.scaled(profilePicLabel->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+//        profilePicLabel->setPixmap(profilePic);
+//    }
 }
 
 void SignUpScene::setFirstScreenQPushButtonProperties(QPushButton* button){
@@ -178,7 +203,7 @@ void SignUpScene::submitButtonClicked(){
     QString password = setPasswordLE->text();
     QString confirmPassword = confirmPasswordLE->text();
     user *newUser = new user(userName);
-    newUser->signup(userName, password, firstName, lastName, doB);
+    newUser->signup(userName, password, firstName, lastName, doB, filename);
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
     errorLabel->setVisible(true); //

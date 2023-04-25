@@ -40,6 +40,7 @@ public:
     QPushButton *reset;
     QPushButton *login;
     QDialogButtonBox *signInPageButtonBox;
+    QString filename;
 
 };
 

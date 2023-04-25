@@ -10,13 +10,15 @@ user :: user (QString username){
     this -> username = username;
 }
 
-void user::signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob){
+void user::signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob, QString &filename){
     QJsonObject userData;
     userData["firstname"] = firstname;
     userData["lastname"] = lastname;
     userData["username"] = username;
     userData["password"] = password;
     userData["dob"] = dob;
+    userData["filename"] = filename;
+    qInfo() << filename;
 //    QJsonArray scoresJson;
 //    for (const int& value : scores)
 //    {
@@ -40,6 +42,7 @@ bool user :: login(QString &username, QString &password){
             if (userObject["username"].toString() == username &&
                 userObject["password"].toString() == password){
                 if(userObject["scores"].isArray()){
+                    this -> dob = QDate::fromString(userObject["dob"].toString(), "yyyy-MM-dd");
                     QJsonArray jsonArray = userObject["scores"].toArray();
                     for (const QJsonValue& jsonValue : jsonArray)
                     {
@@ -143,4 +146,16 @@ void user :: deleteUser(){
             return;
         }
     }
+}
+
+bool user :: isBirthday(){
+    // Get current date
+    QDate currentDate = QDate::currentDate();
+    // Compare day and month of given date with current date
+    if (this ->dob.month() == currentDate.month() && this -> dob.day() == currentDate.day()) {
+        qDebug() << "Happy Birthday!";
+        return true;
+    }
+
+    return false;
 }
