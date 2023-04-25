@@ -1,6 +1,6 @@
 #pragma once
 #include "realgame.h"
-
+#include "playerscene.h"
 
 RealGame::RealGame(int level, user* realPlayer)
 {
@@ -22,24 +22,30 @@ RealGame::RealGame(int level, user* realPlayer)
     timer->start(1000 * level);
 
 
-    connect(this->bucketImg, &bucket::missesReachedTen, this,&RealGame::displaygameOver);
+   connect(bucketImg, &bucket::missesReachedTen, this, &RealGame::displaygameOver);
+  // connect(backButton, &QPushButton::clicked, this, &RealGame::backbuttonClicked);
 
 }
 
 void RealGame::displaygameOver(){
-        gameOver *imageWidget = new gameOver();
-        // Create a QGraphicsProxyWidget and set its widget to the ImageWidget
-        QGraphicsProxyWidget *birthdayProxyWidget = new QGraphicsProxyWidget();
-        birthdayProxyWidget->setWidget(imageWidget);
-        this->addItem(birthdayProxyWidget);
-        QPointF newPos(( this->sceneRect().width() - imageWidget->width())-200, this->sceneRect().height()/8);
-        birthdayProxyWidget->setPos(newPos);
-        connect(imageWidget, &gameOver::close, [imageWidget, this,birthdayProxyWidget]() {
-            this->removeItem(birthdayProxyWidget);
-            // Delete the ImageWidget instance
-            delete imageWidget;
-       });
+
+   this->removeItem(bucketImg);
+  // gameOver *imageWidget = new gameOver();
+   QWidget* gameOver = new QWidget;
+   QHBoxLayout *layout = new QHBoxLayout(gameOver);
+   QLabel *imageLabel = new QLabel();
+   imageLabel->setPixmap(QPixmap(":/gameover.png").scaledToWidth(700).scaledToHeight(500)); // replace with your image path
+   layout->addWidget(imageLabel);
+   backButton = new QPushButton("Back");
+   layout->addWidget(backButton);
+   gameOverProxyWidget = new QGraphicsProxyWidget();
+   gameOverProxyWidget->setWidget(gameOver);
+   QPointF newPos(( this->sceneRect().width() - gameOver->width())-400, this->sceneRect().height()/8);
+   gameOverProxyWidget->setPos(newPos);
+   this->addItem(gameOverProxyWidget);
 }
+
+
 
 
 void RealGame::keyPressEvent(QKeyEvent* event)
@@ -164,14 +170,14 @@ void RealGame::constantElementDisplay(){
         MusicOn->setEnabled(true);
     };
 
-//    // Create a QMediaPlayer instance
-//    player = new QMediaPlayer();
-//    audioOutput = new QAudioOutput();
-//    player->setAudioOutput(audioOutput);
-//    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-//    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
-//    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
-//    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
+    // Create a QMediaPlayer instance
+    player = new QMediaPlayer();
+    audioOutput = new QAudioOutput();
+    player->setAudioOutput(audioOutput);
+    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
+    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
 
     // Set up the layout
     QWidget *musicWidget = new QWidget();

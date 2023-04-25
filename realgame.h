@@ -22,7 +22,10 @@ public:
     QMediaPlayer* player ;
     QAudioOutput *audioOutput;
     bucket *bucketImg;
+    QGraphicsProxyWidget *gameOverProxyWidget;
+    QPushButton *backButton;
     user* realPlayer;
+
 
 
 //    QLabel score;
@@ -30,13 +33,16 @@ public:
 
 
 
+public slots:
+void  displaygameOver();
+void backbuttonClicked();
 
 public:
     //RealGame(int level , user* user);
     RealGame(int level, user* realPlayer);
     void keyPressEvent(QKeyEvent *event);
     void  constantElementDisplay();
-    void  displaygameOver();
+
 
 
 };
