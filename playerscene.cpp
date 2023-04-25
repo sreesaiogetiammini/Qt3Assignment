@@ -4,9 +4,16 @@
 
 
 
-PlayerScene::PlayerScene()
+PlayerScene::PlayerScene(user* player)
 {
     this->constantElementDisplay();
+   // QString playerName = player->usersArray
+//    QJsonObject userObject;
+//    foreach (const QJsonValue &value, player->usersArray){
+//        QJsonObject  userlo   = value.toObject();
+//        if(userlo["username"].toString() == player->)
+//    }
+
     bool birthday = true;
     // Set up the labels
     QString guest = "Guest";
@@ -47,7 +54,19 @@ PlayerScene::PlayerScene()
     int scoresSize = 10;
     QTableWidget *table = new QTableWidget(scoresSize, 3);
     table->setWindowTitle("Player Scores");
+    QSize size;
 
+    int numRows = 3;
+    int numCols = scoresSize;
+    int width = table->width();
+    int height = table->height();
+
+    // Calculate the size of each cell based on the table's size and number of rows and columns
+    int cellWidth = width / numCols;
+    int cellHeight = height / numRows;
+    size.setWidth(cellWidth);
+    size.setHeight(cellHeight);
+    table->setColumnWidth(cellWidth,cellHeight);
 
     // Set headers for each column
     QStringList headers;
@@ -59,13 +78,11 @@ PlayerScene::PlayerScene()
     for (int row = 0; row < scoresSize; row++) {
         for (int col = 0; col < 3; col++) {
             item = new QTableWidgetItem(QString("Row %1, Col %2").arg(row+1).arg(col+1));
-            table->setItem(row, col, item);
-
-            // Set border for each cell
+            table->setItem(row, col, item);           // Set border for each cell
             table->item(row, col)->setBackground(QColor(Qt::white));
             table->item(row, col)->setTextAlignment(Qt::AlignCenter);
             table->item(row, col)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-            table->item(row, col)->setForeground(QBrush(QColor(Qt::white)));
+            table->item(row, col)->setForeground(QBrush(QColor(Qt::red)));
             table->setStyleSheet("QTableWidget::item{border:1px solid #d4d4d4;}");
 
         }
@@ -77,7 +94,7 @@ PlayerScene::PlayerScene()
     gridLayout->addWidget(welcomePlayerL, 0, 1);
     gridLayout->addWidget(profilePicLabel, 1, 1);
     gridLayout->addWidget(playerPageButtonBox, 3, 0, 1, 3);
-    gridLayout->addWidget(table, 4, 0, 1, 3);
+    //gridLayout->addWidget(table, 4, 0, 1, 3);
     gridLayout->addItem(new QSpacerItem(50, 10), 0, 2, 1, 1);
     QVBoxLayout *verticalLayout = new QVBoxLayout(playerWidget);
     verticalLayout->addLayout(gridLayout);
@@ -116,7 +133,6 @@ void PlayerScene::setFirstScreenQPushButtonProperties(QPushButton* button){
 
 
 void PlayerScene::constantElementDisplay(){
-
     // Create the text item and set its properties
     QGraphicsTextItem* gameName = new QGraphicsTextItem("Catch A Drop");
     QFont font("Arial", 56, QFont::Bold);
@@ -141,8 +157,6 @@ void PlayerScene::constantElementDisplay(){
     // Calculate the center point of the screen
     gameName->setPos(500,0);
     this->addItem(gameName);
-
-
     qreal screenHeight = 900;
     qreal screenWidth = 1400;
     setBackgroundBrush(QBrush(QImage(":/background.jpg").scaledToHeight(screenHeight).scaledToWidth(screenWidth)));
@@ -155,7 +169,6 @@ void PlayerScene::constantElementDisplay(){
     addItem(bucketImg);
     // Set the bucket object as the focus item
     bucketImg->setFocus();
-
 
 
     MusicOn = new QPushButton();
@@ -171,47 +184,51 @@ void PlayerScene::constantElementDisplay(){
     MusicOff->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
     MusicOff->setFixedWidth(100);
     MusicOff->setMinimumHeight(30);
+    MusicOff->setEnabled(false);
 
 
     // Set up the layout
-
     QDialogButtonBox*  musicbuttonBox = new QDialogButtonBox(Qt:: Horizontal);
     musicbuttonBox->addButton(MusicOn, QDialogButtonBox::AcceptRole);
     musicbuttonBox->addButton(MusicOff, QDialogButtonBox::AcceptRole);
 
+
+    auto musicOnClick =  [&]() {
+        audioOutput->setVolume(80);
+        player->play();
+        MusicOn->setEnabled(false);
+        MusicOff->setEnabled(true);
+    };
+
+    auto musicOffClick =  [&]() {
+        player->pause();
+        MusicOff->setEnabled(false);
+        MusicOn->setEnabled(true);
+    };
+
+    // Create a QMediaPlayer instance
+    player = new QMediaPlayer();
+    audioOutput = new QAudioOutput();
+    player->setAudioOutput(audioOutput);
+    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
+    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
+
     // Set up the layout
     QWidget *musicWidget = new QWidget();
-    QGridLayout *gridLayout = new QGridLayout();
-    gridLayout->addWidget(musicbuttonBox);
-    gridLayout->addItem(new QSpacerItem(5, 10), 0, 2, 1, 1); // Add space
-    QVBoxLayout *verticalLayout = new QVBoxLayout(musicWidget);
-    verticalLayout->addLayout(gridLayout);
+    QGridLayout *gridLayout3 = new QGridLayout();
+    gridLayout3->addWidget(musicbuttonBox);
+    gridLayout3->addItem(new QSpacerItem(5, 10), 0, 2, 1, 1); // Add space
+    QVBoxLayout *verticalLayout3 = new QVBoxLayout(musicWidget);
+    verticalLayout3->addLayout(gridLayout3);
 
     // Create a QGraphicsProxyWidget from the QWidget
     musicButtonsProxyWidget = this->addWidget(musicWidget);
     QPointF newPos2((sceneRect().width() - musicWidget->width()), 0);
     musicButtonsProxyWidget->setPos(newPos2);
-
-    // Create a QMediaPlayer instance
-    QMediaPlayer* player = new QMediaPlayer();
-    QAudioOutput *audioOutput = new QAudioOutput();
-    player->setAudioOutput(audioOutput);
-    player->setSource(QUrl::fromLocalFile("music.mp3"));
-
-
-
-    // Create a slot that checks if all mandatory fields are filled and enable/disable the push button accordingly
-    auto musicOn = [&]() {
-        audioOutput->setVolume(50);
-        player->play();
-    };
-
-    auto musicOff = [&]() {
-        player->pause();
-    };
-    connect(MusicOn, &QPushButton::clicked, this, musicOn);
-    connect(MusicOff, &QPushButton::clicked, this, musicOff);
 }
+
 
 
 void PlayerScene:: displayBirthDayGreeting()

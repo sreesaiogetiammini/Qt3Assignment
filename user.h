@@ -16,7 +16,6 @@ public:
         QDate date;
         QString level;
     };
-
     QVector<scoreStruct> scores;
     void updateScore(int score, int level);
     void deleteUser();
@@ -28,6 +27,7 @@ private:
     void loadDataFromJson();
 public:
     QJsonArray usersArray;
+//    QString username;
 };
 
 

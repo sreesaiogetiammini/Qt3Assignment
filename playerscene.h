@@ -7,7 +7,7 @@
 class PlayerScene : public QGraphicsScene
 {
 public:
-    PlayerScene();
+    PlayerScene(user* player);
     void constantElementDisplay();
     void  displayBirthDayGreeting();
     void setFirstScreenQPushButtonProperties(QPushButton *button);
@@ -22,7 +22,8 @@ public:
     QPushButton *MusicOn;
     QPushButton *MusicOff;
     QGraphicsProxyWidget *musicButtonsProxyWidget;
-
+    QMediaPlayer* player ;
+    QAudioOutput *audioOutput;
 
     QLabel* welcomePlayerL;
     QLabel* profilePicLabel;
@@ -35,7 +36,7 @@ public:
     QGraphicsProxyWidget *playerProxyWidget;
     QWidget *playerWidget;
     QPushButton *closeBirthdayButton;
-     QGraphicsProxyWidget *birthdayProxyWidget;
+    QGraphicsProxyWidget *birthdayProxyWidget;
 
 };
 

@@ -6,6 +6,7 @@
 FirstScreen::FirstScreen()
 {
     this->constantElementDisplay();
+
     // Set up the dialog buttons
     buttonBox = new QDialogButtonBox(Qt:: Vertical);
     SignUp = new QPushButton("Sign Up");
@@ -38,25 +39,10 @@ FirstScreen::FirstScreen()
     QPointF newPos((sceneRect().width()/2 - buttonWidget->width())+ 100 , sceneRect().height()/4);
     buttonProxyWidget->setPos(newPos);
 
-    // Create a QMediaPlayer instance
-    QMediaPlayer* player = new QMediaPlayer();
-    QAudioOutput *audioOutput = new QAudioOutput();
-    player->setAudioOutput(audioOutput);
-    player->setSource(QUrl::fromLocalFile("music.mp3"));
 
 
 
-    // Create a slot that checks if all mandatory fields are filled and enable/disable the push button accordingly
-    auto musicOn = [&]() {
-        audioOutput->setVolume(50);
-        player->play();
-    };
 
-    auto musicOff = [&]() {
-        player->pause();
-    };
-    connect(MusicOn, &QPushButton::clicked, this, musicOn);
-    connect(MusicOff, &QPushButton::clicked, this, musicOff);
 
 }
 
@@ -70,7 +56,6 @@ void FirstScreen::setFirstScreenQPushButtonProperties(QPushButton* button){
 
 
 void FirstScreen::constantElementDisplay(){
-
     // Create the text item and set its properties
     QGraphicsTextItem* gameName = new QGraphicsTextItem("Catch A Drop");
     QFont font("Arial", 56, QFont::Bold);
@@ -95,8 +80,6 @@ void FirstScreen::constantElementDisplay(){
     // Calculate the center point of the screen
     gameName->setPos(500,0);
     this->addItem(gameName);
-
-
     qreal screenHeight = 900;
     qreal screenWidth = 1400;
     setBackgroundBrush(QBrush(QImage(":/background.jpg").scaledToHeight(screenHeight).scaledToWidth(screenWidth)));
@@ -109,7 +92,6 @@ void FirstScreen::constantElementDisplay(){
     addItem(bucketImg);
     // Set the bucket object as the focus item
     bucketImg->setFocus();
-
 
 
     MusicOn = new QPushButton();
@@ -125,30 +107,48 @@ void FirstScreen::constantElementDisplay(){
     MusicOff->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
     MusicOff->setFixedWidth(100);
     MusicOff->setMinimumHeight(30);
+    MusicOff->setEnabled(false);
 
 
     // Set up the layout
-
     QDialogButtonBox*  musicbuttonBox = new QDialogButtonBox(Qt:: Horizontal);
     musicbuttonBox->addButton(MusicOn, QDialogButtonBox::AcceptRole);
     musicbuttonBox->addButton(MusicOff, QDialogButtonBox::AcceptRole);
 
+
+    auto musicOnClick =  [&]() {
+        audioOutput->setVolume(80);
+        player->play();
+        MusicOn->setEnabled(false);
+        MusicOff->setEnabled(true);
+    };
+
+    auto musicOffClick =  [&]() {
+        player->pause();
+        MusicOff->setEnabled(false);
+        MusicOn->setEnabled(true);
+    };
+
+    // Create a QMediaPlayer instance
+    player = new QMediaPlayer();
+    audioOutput = new QAudioOutput();
+    player->setAudioOutput(audioOutput);
+    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
+    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
+
     // Set up the layout
     QWidget *musicWidget = new QWidget();
-    QGridLayout *gridLayout = new QGridLayout();
-    gridLayout->addWidget(musicbuttonBox);
-    gridLayout->addItem(new QSpacerItem(5, 10), 0, 2, 1, 1); // Add space
-    QVBoxLayout *verticalLayout = new QVBoxLayout(musicWidget);
-    verticalLayout->addLayout(gridLayout);
+    QGridLayout *gridLayout3 = new QGridLayout();
+    gridLayout3->addWidget(musicbuttonBox);
+    gridLayout3->addItem(new QSpacerItem(5, 10), 0, 2, 1, 1); // Add space
+    QVBoxLayout *verticalLayout3 = new QVBoxLayout(musicWidget);
+    verticalLayout3->addLayout(gridLayout3);
 
     // Create a QGraphicsProxyWidget from the QWidget
     musicButtonsProxyWidget = this->addWidget(musicWidget);
     QPointF newPos2((sceneRect().width() - musicWidget->width()), 0);
     musicButtonsProxyWidget->setPos(newPos2);
-
-
 }
-
-
-
 

@@ -23,18 +23,21 @@ public:
     QPushButton *MusicOn;
     QPushButton *MusicOff;
     QGraphicsProxyWidget *musicButtonsProxyWidget;
+    QMediaPlayer* player ;
+    QAudioOutput *audioOutput;
 
 signals:
     void sceneSwitched(QGraphicsScene *scene);
 
 public:
-    void  constantElementDisplay();
+    void constantElementDisplay();
     void setFirstScreenQPushButtonProperties(QPushButton* button);
 public slots:
     void signUpButtonClick();
     void signInButtonClick();
     void exitButtonClick();
     void guestGameButtonClick();
+
 
 };
 
