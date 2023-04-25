@@ -24,6 +24,7 @@ public:
     int score = 0;
     int misses = 0;
     void increaseScore();
+    int level ;
     void countMiss();
     user* realPlayer;
 };

@@ -5,26 +5,15 @@
 
 PlayerScene::PlayerScene(user* player)
 {
-    this->constantElementDisplay();
-    bool birthday = player->isBirthday();
+    this->constantElementDisplay(); 
     // Set up the labels
     QString userName =  player->username;
-
     QJsonObject playerjson;
     if(userName.isEmpty()){
        welcomePlayerL = new QLabel("Welcome Guest");
     }
     else{
         welcomePlayerL = new QLabel("Welcome "+userName);
-
-       foreach (const QJsonValue &value, player->usersArray){
-           QJsonObject userObject = value.toObject();
-           if(userObject["username"].toString() == userName){
-               playerjson = userObject;
-               break;
-           }
-       }
-
     }
 
     profilePicLabel = new QLabel();
@@ -32,8 +21,8 @@ PlayerScene::PlayerScene(user* player)
     profilePicLabel->setStyleSheet("border-radius: 50px; border: 2px solid gray;");
     profilePicLabel->setAlignment(Qt::AlignCenter);
 
-    QString filename = player->username+".png";
-    if (filename != "") {
+    QString filename = "/Users/srees/Desktop/CS6015/Qt3Assignment/"+player->username+".png";
+    if (!player->username.isEmpty()) {
         QPixmap profilePic(filename);
         profilePic = profilePic.scaled(profilePicLabel->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         profilePicLabel->setPixmap(profilePic);
@@ -62,7 +51,7 @@ PlayerScene::PlayerScene(user* player)
 
     QVector<user::scoreStruct> scores = player->getScores(player -> username) ;
     int scoresSize = scores.size();
-    qInfo() << "sizeeeeeeeeeeeeeeeeeeeeeeee:        " << scores.size();
+    qInfo() << "scores size:        " << scores.size();
     QTableWidget *table = new QTableWidget(scoresSize, 3);
     table->setWindowTitle("Player Scores");
 
@@ -76,13 +65,11 @@ PlayerScene::PlayerScene(user* player)
     for (int row = 0; row < scoresSize; row++) {
         for (int col = 0; col < 3; col++) {
             if(col == 0){
-                qInfo() << scores.at(row).date.toString();
-                QDate date = QDate::fromString(scores.at(row).date.toString(), "yyyy-MM-dd");;
-                item = new QTableWidgetItem(date.toString());
+                item = new QTableWidgetItem(scores.at(row).date);
                  table->setItem(row, col, item);
             }
             if(col == 1){
-                item = new QTableWidgetItem(QString(scores.at(row).level));
+                 item = new QTableWidgetItem(QString(scores.at(row).level).toUpper());
                  table->setItem(row, col, item);
             }
 
@@ -106,9 +93,9 @@ PlayerScene::PlayerScene(user* player)
     gridLayout->addWidget(welcomePlayerL, 0, 1);
     gridLayout->addWidget(profilePicLabel, 1, 1);
     gridLayout->addWidget(playerPageButtonBox, 3, 0, 1, 3);
-//    if(player -> scores.size()!= 0 && !userName.isEmpty()){
+    if(scoresSize != 0){
          gridLayout->addWidget(table, 4, 0, 1, 3);
-//    }
+    }
     gridLayout->addItem(new QSpacerItem(50, 10), 0, 2, 1, 1);
     QVBoxLayout *verticalLayout = new QVBoxLayout(playerWidget);
     verticalLayout->addLayout(gridLayout);
@@ -119,9 +106,7 @@ PlayerScene::PlayerScene(user* player)
     // Set the position of the QVBoxLayout
     QPointF newPos((sceneRect().width()/2 - playerWidget->width())+200 , sceneRect().height()/8);
     playerProxyWidget->setPos(newPos);
-
-
-    if(birthday){
+    if(player->isBirthday()){
          ImageWidget *imageWidget = new ImageWidget();
         //ImageWidget *imageWidget = new ImageWidget();
         // Create a QGraphicsProxyWidget and set its widget to the ImageWidget
@@ -246,20 +231,4 @@ void PlayerScene::constantElementDisplay(){
 
 
 
-void PlayerScene:: displayBirthDayGreeting()
-{
 
-    QWidget* birthdayWidget = new QWidget();
-    QHBoxLayout *layout = new QHBoxLayout(birthdayWidget);
-    QLabel *imageLabel = new QLabel();
-    imageLabel->setPixmap(QPixmap(":/birthday.png").scaledToWidth(700).scaledToHeight(500));
-    layout->addWidget(imageLabel);
-    closeBirthdayButton = new QPushButton("Close");
-    layout->addWidget(closeBirthdayButton);
-    // Create a QGraphicsProxyWidget from the QWidget
-    birthdayProxyWidget = this->addWidget(birthdayWidget);
-    // Set the position of the QVBoxLayout
-    QPointF newPos((sceneRect().width() - birthdayWidget->width())-200, sceneRect().height()/8);
-    birthdayProxyWidget->setPos(newPos);
-
-}

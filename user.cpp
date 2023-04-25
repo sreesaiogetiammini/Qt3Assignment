@@ -19,15 +19,7 @@ void user::signup(QString &username, QString &password, QString &firstname, QStr
     userData["dob"] = dob;
     userData["filename"] = filename;
     qInfo() << filename;
-//    QJsonArray scoresJson;
-//    for (const int& value : scores)
-//    {
-//        scoresJson.append(value);
-//    }
-//    userData["scores"] = scoresJson;
-
     userData["scores"] = {};
-
     usersArray.append(userData);
     qInfo() << "data appended to array";
     saveDataToJson();
@@ -42,14 +34,14 @@ bool user :: login(QString &username, QString &password){
             if (userObject["username"].toString() == username &&
                 userObject["password"].toString() == password){
                 if(userObject["scores"].isArray()){
-                    this -> dob = QDate::fromString(userObject["dob"].toString(), "yyyy-MM-dd");
+                    this -> dob = QDate::fromString(userObject["dob"].toString(), "dd-MM-yyyy");
                     QJsonArray jsonArray = userObject["scores"].toArray();
                     for (const QJsonValue& jsonValue : jsonArray)
                     {
                             scoreStruct newScore;
                             QJsonObject scoreObject = jsonValue.toObject();
                             newScore.score = scoreObject["score"].toInt();
-                            newScore.date = QDate::fromString(scoreObject["date"].toString(), "yyyy-MM-dd");
+                            newScore.date = scoreObject["date"].toString();
                             newScore.level = scoreObject["level"].toString();
                             scores.append(newScore);
                     }
@@ -108,9 +100,7 @@ void user :: updateScore(int score, int level){
     if(level == 3) newScore.level = "easy";
     else if(level == 2) newScore.level = "medium";
     else newScore.level = "hard";
-
-    newScore.date = QDate::currentDate();
-
+    newScore.date = QDate::currentDate().toString("yyyy-MM-dd");
     scores.append(newScore);
     std::stable_sort(scores.begin(), scores.end(),
                      [](const scoreStruct& s1, const scoreStruct& s2) {
@@ -167,18 +157,16 @@ void user :: deleteUser(){
 }
 
 bool user :: isBirthday(){
-    // Get current date
-    QDate currentDate = QDate::currentDate();
-    // Compare day and month of given date with current date
-    if (this ->dob.month() == currentDate.month() && this -> dob.day() == currentDate.day()) {
-        qDebug() << "Happy Birthday!";
-        return true;
-    }
-    else {
-        qDebug() << this ->dob.month() << this -> dob.day();
-    }
+    for (int i = 0; i < usersArray.size(); i++) {
 
-    return false;
+        if (usersArray[i].toObject()["username"] == username) {
+            // Update the value
+           QDate dobUser =  QDate::fromString(usersArray[i].toObject()["dob"].toString(), "dd-MM-yyyy");
+           QDate currentDate = QDate::currentDate();
+           return dobUser.month() == currentDate.month() && dobUser.day() == currentDate.day();
+        }
+    }
+  return false;
 }
 
 QJsonValue user :: QVectorToJsonValue(const QVector<scoreStruct>& scores)
@@ -187,7 +175,8 @@ QJsonValue user :: QVectorToJsonValue(const QVector<scoreStruct>& scores)
 
     for (const scoreStruct& score : scores) {
         QJsonObject jsonObject;
-        jsonObject["date"] = score.date.toString();
+        //jsonObject["date"] = score.date.toString();
+         jsonObject["date"] = score.date;
         jsonObject["level"] = score.level;
         jsonObject["score"] = score.score;
         jsonArray.append(jsonObject);
@@ -215,9 +204,8 @@ QVector<user::scoreStruct> user :: JsonValueToQVector(const QJsonValue &jsonValu
             if (jsonScore.isObject()) {
                 scoreStruct newscore;
                 QJsonObject jsonScoreObject = jsonScore.toObject();
-                newscore.date = QDate::fromString(jsonScoreObject["date"].toString(), "yyyy-MM-dd");
+                newscore.date = jsonScoreObject["date"].toString();
                 newscore.score = jsonScoreObject.value("score").toInt();
-                qInfo() << "qweeeeeeeeeeeeeeeeeeee    eeeeee   e     e   e" << newscore.score;
                 newscore.level = jsonScoreObject.value("level").toString();
                 scores.append(newscore);
             } else {

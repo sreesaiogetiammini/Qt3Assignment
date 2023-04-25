@@ -50,6 +50,7 @@ public:
     QLabel *passwordLabel;
     QLineEdit* confirmPasswordLE;
     QCalendarWidget *doBcalendar;
+    QPixmap profilePic;
 
     QGroupBox* genderGB;
     QVBoxLayout* genderLayout;

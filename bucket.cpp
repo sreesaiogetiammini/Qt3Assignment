@@ -34,16 +34,19 @@ bucket :: bucket(user* realPlayer){
 
 void bucket :: increaseScore() {
     score++;
-
+    scoreLabel->setText("Misses: " + QString::number(misses)+"\n"+"Score: "+ QString::number(score));
+    scoreLabel->setStyleSheet("QLabel { background-color : red; border-radius: 5px; padding: 5px; color : black; width:50px; height:50px}");
 }
 
 void bucket :: countMiss (){
-    if(misses<2){
+    if(misses< 10 ){
         misses++;
-        scoreLabel->setText("Misses: " + QString::number(misses));
+        scoreLabel->setText("Misses: " + QString::number(misses)+"\n"+"Score: "+ QString::number(score));
         scoreLabel->setStyleSheet("QLabel { background-color : red; border-radius: 5px; padding: 5px; color : black; width:50px; height:50px}");
         if(misses == 10){
-            realPlayer -> updateScore(score, 2);
+            scoreLabel->setText("Misses: " + QString::number(misses)+"\n"+"Score: "+ QString::number(score));
+            scoreLabel->setStyleSheet("QLabel { background-color : gold; border-radius: 5px; padding: 5px; color : black; width:50px; height:50px}");
+            realPlayer -> updateScore(score, this->level);
             emit missesReachedTen();
 
         }

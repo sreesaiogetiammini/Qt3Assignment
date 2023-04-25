@@ -146,41 +146,13 @@ void SignUpScene::chooseProfilePic() {
     QImage image;
 
     if (image.load(filename)) {
-        // Display image in a QLabel
-//        QLabel label;
-//        label.setPixmap(QPixmap::fromImage(image));
-//        label.show();
-        QPixmap profilePic(filename);
+        profilePic = QPixmap(filename);
         profilePic = profilePic.scaled(profilePicLabel->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
         profilePicLabel->setPixmap(profilePic);
+    }
 
-        // Save image to a file
-        QString newFileName = userNameLE->text().toLower()+".png";
-        QString savePath = QFileDialog::getSaveFileName(nullptr, "Save Image", newFileName, "Images (*.png *.jpg *.bmp)");
-        if (!savePath.isEmpty()) {
-            image.save(savePath);
-        }
-    } else {
+    else {
         qDebug() << "Failed to load image.";
-
-//    QString filepath = QFileDialog::getOpenFileName(this->choosePicButton, "Choose Picture", "", "Images (*.png *.jpg *.bmp)");
-//    if (filepath != "") {
-//        QPixmap profilePic(filepath);
-//        QSize size(50, 50);
-
-//        profilePic = profilePic.scaled(size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-//        profilePicLabel->setPixmap(profilePic);
-//        profilePicLabel->setScaledContents(true);
-//        QString newFileName = userNameLE->text().toLower()+".png"; // specify the new file name here
-//        QString destFilePath = ":/Resources/" + newFileName;
-//        if(QFile::copy(filepath, destFilePath)) {
-//            qDebug() << "File copied to resources directory with new file name: " << destFilePath;
-//        }
-//        else {
-//            qDebug() << "Failed to copy file to resources directory.";
-//        }
-
-
     }
 
 //    if (filename != "") {
@@ -208,6 +180,25 @@ void SignUpScene::submitButtonClicked(){
     errorLabel->setText("Signed Up Suceessfully");
     errorLabel->setStyleSheet("color: green");
     errorLabel->setVisible(true); //
+
+    QPixmap pixmap = profilePic;
+    QString newFileName = userNameLE->text().toLower()+".png";// Replace with your own QPixmap object
+    QString filename = "/Users/srees/Desktop/CS6015/Qt3Assignment/"+newFileName; // Replace with your desired filename in the resources folder
+
+    // Create a QFile object to write to the file
+    QFile file(filename);
+
+    // Open the file for writing
+    if (file.open(QIODevice::WriteOnly)) {
+        // Save the QPixmap object to the file
+        pixmap.save(&file, "PNG");
+
+        // Close the file
+        file.close();
+    } else {
+        qDebug() << filename;
+        qDebug() << "Failed to save image.";
+    }
     submit->setEnabled(false);
     return;
 

@@ -13,7 +13,7 @@ public:
     bool login(QString &username, QString &password);
     struct scoreStruct {
         int score;
-        QDate date;
+        QString date;
         QString level;
     };
     QVector<scoreStruct> scores;
@@ -21,6 +21,7 @@ public:
     void deleteUser();
     QString username;
     QDate dob;
+    bool isBirth;
     bool isBirthday();
     QJsonObject userObject;
     QJsonValue QVectorToJsonValue(const QVector<scoreStruct>& scores);

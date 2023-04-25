@@ -6,6 +6,8 @@ RealGame::RealGame(int level, user* realPlayer)
 {
     this -> realPlayer = realPlayer;
     qInfo() << realPlayer -> username;
+    bucketImg = new bucket(realPlayer);
+    bucketImg->level = level;
      this->constantElementDisplay();
     // Add water droplets
     srand(time(NULL));
@@ -127,7 +129,7 @@ void RealGame::constantElementDisplay(){
 
     // Create the bucket object and set its pixmap
     // Set the bucket object as focusable
-    bucketImg = new bucket(realPlayer);
+
     bucketImg->setFlag(QGraphicsItem::ItemIsFocusable);
     addItem(bucketImg);
     // Set the bucket object as the focus item
