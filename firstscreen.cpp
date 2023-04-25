@@ -1,5 +1,6 @@
+#pragma once
+#include "headers.h"
 #include "firstscreen.h"
-#include "signupscene.h"
 
 
 FirstScreen::FirstScreen()

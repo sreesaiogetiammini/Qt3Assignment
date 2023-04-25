@@ -2,30 +2,7 @@
 #define SIGNUPSCENE_H
 
 #pragma once
-#include <QQuickItem>
-#include <QLabel>
-#include <QLineEdit>
-#include <QDateEdit>
-#include <QCalendarWidget>
-#include <QGraphicsScene>
-#include <QRadioButton>
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QGraphicsProxyWidget>
-#include <QPushButton>
-#include <QDialogButtonBox>
-#include <QPainter>
-#include <QPixmap>
-#include <QFileDialog>
-#include <QString>
-#include "bucket.h"
-#include "firstscreen.h"
-#include "passwordValidator.h"
-#include "ageValidator.h"
-#include <QRegularExpressionValidator>
-#include "user.h"
-#include <QMediaPlayer>
-#include <QAudioOutput>
+#include "headers.h"
 
 class SignUpScene: public QGraphicsScene
 {

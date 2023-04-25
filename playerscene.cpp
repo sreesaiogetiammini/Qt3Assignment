@@ -1,5 +1,7 @@
+#pragma once
+#include "headers.h"
 #include "playerscene.h"
-#include "imageWidget.h"
+
 
 
 PlayerScene::PlayerScene()

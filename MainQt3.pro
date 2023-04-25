@@ -6,7 +6,6 @@ HEADERS += \
     bucket.h \
     clouds.h \
     firstscreen.h \
-    gamescene.h \
     headers.h \
     imageWidget.h \
     playerscene.h \
@@ -20,7 +19,6 @@ SOURCES += \
     bucket.cpp \
     clouds.cpp \
     firstscreen.cpp \
-    gamescene.cpp \
     main.cpp \
     playerscene.cpp \
     realgame.cpp \

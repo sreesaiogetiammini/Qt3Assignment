@@ -1,15 +1,8 @@
 #ifndef IMAGEWIDGET_H
 #define IMAGEWIDGET_H
-#include<QPushButton>
-#include <QPainter>
-#include <QPixmap>
-#include <QRectF>
-#include <QWidget>
 
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
+#pragma once
+#include "headers.h"
 
 class ImageWidget : public QWidget {
 public:

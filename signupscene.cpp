@@ -1,5 +1,7 @@
+#pragma once
+#include "headers.h"
 #include "signupscene.h"
-#include <iostream>
+
 
 
 

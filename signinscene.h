@@ -2,7 +2,7 @@
 #define SIGNINSCENE_H
 
 #pragma once
-#include "signupscene.h"
+#include "headers.h"
 
 class SignInScene : public QGraphicsScene
 {

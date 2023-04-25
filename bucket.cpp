@@ -1,3 +1,4 @@
+#pragma once
 #include "bucket.h"
 
 bucket::bucket(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)

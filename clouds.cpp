@@ -1,3 +1,4 @@
+#pragma once
 #include "clouds.h"
 
 Clouds::Clouds(QObject *parent) : QObject(parent), QGraphicsPixmapItem()

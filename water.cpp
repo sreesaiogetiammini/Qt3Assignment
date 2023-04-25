@@ -1,6 +1,8 @@
+
+#pragma once
+#include "headers.h"
 #include "water.h"
-#include "bucket.h"
-#include <QGraphicsScene>
+
 
 water::water(bucket* bucket1, int level)
 {

@@ -1,3 +1,5 @@
+#pragma once
+#include "headers.h"
 #include "realgame.h"
 
 RealGame::RealGame(int level)

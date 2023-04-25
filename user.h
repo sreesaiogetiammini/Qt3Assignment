@@ -1,10 +1,9 @@
 #ifndef USER_H
 #define USER_H
-#include <QString>
-#include <QDate>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
+
+
+#pragma once
+#include "headers.h"
 
 class user
 {

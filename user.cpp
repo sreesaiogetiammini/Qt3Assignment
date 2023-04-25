@@ -1,7 +1,7 @@
+#pragma once
+#include "headers.h"
 #include "user.h"
-#include <QJsonObject>
-#include <QFile>
-#include <QCoreApplication>
+
 
 
 user :: user (){
@@ -48,7 +48,7 @@ bool user :: login(QString &username, QString &password){
                             QJsonObject scoreObject = jsonValue.toObject();
                             newScore.score = scoreObject["score"].toInt();
                             newScore.date = QDate::fromString(scoreObject["date"].toString(), "yyyy-MM-dd");
-                            newScore.level = scoreObject["level"].toString();
+                           // newScore.level = scoreObject["level"].toString();
                     }
                 }
                 return true;
@@ -101,9 +101,9 @@ void user :: updateScore(int score, int level){
     scoreStruct newScore;
     newScore.score = score;
 
-    if(level == 1) newScore.level = "easy";
-    else if(level == 2) newScore.level = "medium";
-    else newScore.level = "hard";
+//    if(level == 1) newScore.level = "easy";
+//    else if(level == 2) newScore.level = "medium";
+//    else newScore.level = "hard";
 
     newScore.date = QDate::currentDate();
 

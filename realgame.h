@@ -1,19 +1,8 @@
 #ifndef REALGAME_H
 #define REALGAME_H
 
-#include <QQuickItem>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QWidget>
-#include <QObject>
-#include <QGraphicsPixmapItem>
-#include <QKeyEvent>
-#include <QGraphicsItemAnimation>
-#include <QTimeLine>
-#include "signupscene.h"
-#include "bucket.h"
-#include "water.h"
-#include "clouds.h"
+#pragma once
+#include "headers.h"
 
 class RealGame : public QGraphicsScene
 {
@@ -32,7 +21,7 @@ public:
 
 
 public:
-    //RealGame(int level ,QDate date, user* user);
+    //RealGame(int level , user* user);
     RealGame(int level);
     void keyPressEvent(QKeyEvent *event);
     void  constantElementDisplay();

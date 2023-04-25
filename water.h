@@ -2,10 +2,8 @@
 #define WATER_H
 
 
-#include <QObject>
-#include <QGraphicsPixmapItem>
-#include <QTimer>
-#include "bucket.h"
+#pragma once
+#include "headers.h"
 
 class water : public QObject, public QGraphicsPixmapItem
 {

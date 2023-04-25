@@ -2,8 +2,8 @@
 #define PLAYERSCENE_H
 
 #pragma once
-#include "signupscene.h"
-#include <QTableWidget>
+#include "headers.h"
+
 class PlayerScene : public QGraphicsScene
 {
 public:

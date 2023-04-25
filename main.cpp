@@ -1,8 +1,5 @@
-#include <QApplication>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsView>
-#include <QObject>
+#pragma once
+#include "headers.h"
 #include "firstscreen.h"
 #include "signupscene.h"
 #include "signinscene.h"
