@@ -10,7 +10,7 @@ water::water(bucket* bucket1, int level)
     setPixmap((QPixmap(":/water.gif")).scaled(30,30));
     timer_drop = new QTimer();
     connect(timer_drop, &QTimer::timeout, this, &water::move_droplet);
-    timer_drop->start(100 * level);
+    timer_drop->start(50 * level);
 }
 
 void water::move_droplet()

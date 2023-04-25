@@ -193,10 +193,18 @@ void PlayerScene::constantElementDisplay(){
     musicbuttonBox->addButton(MusicOff, QDialogButtonBox::AcceptRole);
 
 
+
+
+    player= new QMediaPlayer;
+    audioOutput = new QAudioOutput;
+    audioOutput->setVolume(100.0); // set the volume level// set the output devic
+    player->setAudioOutput(audioOutput);
+    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+    audioOutput->setVolume(50);
+    player->play();
+
     auto musicOnClick =  [&]() {
-        if (player->playbackState() == QMediaPlayer::StoppedState) {
-            player->setPosition(0);
-        }
         player->play();
         MusicOn->setEnabled(false);
         MusicOff->setEnabled(true);
@@ -211,15 +219,6 @@ void PlayerScene::constantElementDisplay(){
         qDebug() << "Audio paused playback";
     };
 
-
-    player= new QMediaPlayer;
-    audioOutput = new QAudioOutput;
-    audioOutput->setVolume(100.0); // set the volume level// set the output devic
-    player->setAudioOutput(audioOutput);
-    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
-    audioOutput->setVolume(50);
-    player->play();
 
     connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
     connect(MusicOff, &QPushButton::clicked, this, musicOffClick);

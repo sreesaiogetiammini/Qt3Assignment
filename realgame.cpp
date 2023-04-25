@@ -21,7 +21,7 @@ RealGame::RealGame(int level, user* realPlayer)
         drop->setPos(rand()%700, 0);
         addItem(drop);
     });
-    timer->start(1000 * level);
+    timer->start(1500 * level);
 
 
    connect(bucketImg, &bucket::missesReachedTen, this, &RealGame::displaygameOver);
@@ -128,8 +128,10 @@ void RealGame::constantElementDisplay(){
     setSceneRect(0, 0, screenWidth-2, screenHeight-2);
 
     // Create the bucket object and set its pixmap
-    bucketImg = new bucket();
-    addWidget(bucketImg -> scoreLabel);
+
+    //bucketImg = new bucket();
+    this->addWidget(bucketImg->scoreLabel);
+
     // Set the bucket object as focusable
     bucketImg->setFlag(QGraphicsItem::ItemIsFocusable);
     addItem(bucketImg);
@@ -178,17 +180,17 @@ void RealGame::constantElementDisplay(){
     };
 
 
-    player= new QMediaPlayer;
-    audioOutput = new QAudioOutput;
-    audioOutput->setVolume(100.0); // set the volume level// set the output devic
-    player->setAudioOutput(audioOutput);
-    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
-    audioOutput->setVolume(50);
-    player->play();
+//    player= new QMediaPlayer;
+//    audioOutput = new QAudioOutput;
+//    audioOutput->setVolume(100.0); // set the volume level// set the output devic
+//    player->setAudioOutput(audioOutput);
+//    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+//    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+//    audioOutput->setVolume(50);
+//    player->play();
 
-    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
-    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
+//    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
+//    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
 
     // Set up the layout
     QWidget *musicWidget = new QWidget();
