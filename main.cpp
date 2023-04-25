@@ -44,7 +44,6 @@ int main(int argc , char** argv){
 //    RealGame *realgameScene = new RealGame(hardLevel,guest);
 //    QPushButton* gameBackButton =  realgameScene->backButton;
 
-
     QGraphicsView* view = new QGraphicsView();
     view->setScene(firstScreen);
 

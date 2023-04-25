@@ -59,10 +59,10 @@ PlayerScene::PlayerScene(user* player)
     playerPageButtonBox->addButton(Medium, QDialogButtonBox::AcceptRole);
     playerPageButtonBox->addButton(Easy, QDialogButtonBox::AcceptRole);
 
-    QJsonArray jsonArray = playerjson["scores"].toArray();
-    QVector<user::scoreStruct> scores = player->scores ;
-    int scoresSize = jsonArray.size();
-    qInfo() << "Player Score" << scoresSize;
+
+    QVector<user::scoreStruct> scores = player->getScores(player -> username) ;
+    int scoresSize = scores.size();
+    qInfo() << "sizeeeeeeeeeeeeeeeeeeeeeeee:        " << scores.size();
     QTableWidget *table = new QTableWidget(scoresSize, 3);
     table->setWindowTitle("Player Scores");
 
@@ -76,7 +76,9 @@ PlayerScene::PlayerScene(user* player)
     for (int row = 0; row < scoresSize; row++) {
         for (int col = 0; col < 3; col++) {
             if(col == 0){
-                item = new QTableWidgetItem(QString(scores.at(row).date.toString()));
+                qInfo() << scores.at(row).date.toString();
+                QDate date = QDate::fromString(scores.at(row).date.toString(), "yyyy-MM-dd");;
+                item = new QTableWidgetItem(date.toString());
                  table->setItem(row, col, item);
             }
             if(col == 1){

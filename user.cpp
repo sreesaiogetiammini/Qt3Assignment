@@ -5,8 +5,8 @@
 
 
 user :: user (QString username){
-    loadDataFromJson();
     scores = QVector<scoreStruct>();
+    loadDataFromJson();
     this -> username = username;
 }
 
@@ -54,6 +54,7 @@ bool user :: login(QString &username, QString &password){
                             scores.append(newScore);
                     }
                 }
+                qInfo() << scores.size();
                 return true;
             }
 
@@ -193,4 +194,36 @@ QJsonValue user :: QVectorToJsonValue(const QVector<scoreStruct>& scores)
     }
 
     return QJsonValue::fromVariant(jsonArray.toVariantList());
+}
+
+QVector<user::scoreStruct> user :: getScores(QString username){
+    for (int i = 0; i < usersArray.size(); i++) {
+
+        if (usersArray[i].toObject()["username"] == username) {
+            // Update the value
+            return JsonValueToQVector(usersArray[i].toObject()["scores"]);;
+        }
+    }
+    return scores;
+}
+
+QVector<user::scoreStruct> user :: JsonValueToQVector(const QJsonValue &jsonValue) {
+    QVector<scoreStruct> scores;
+    if (jsonValue.isArray()) {
+        QJsonArray jsonArray = jsonValue.toArray();
+        for (const QJsonValue &jsonScore : jsonArray) {
+            if (jsonScore.isObject()) {
+                scoreStruct newscore;
+                QJsonObject jsonScoreObject = jsonScore.toObject();
+                newscore.date = QDate::fromString(jsonScoreObject["date"].toString(), "yyyy-MM-dd");
+                newscore.score = jsonScoreObject.value("score").toInt();
+                qInfo() << "qweeeeeeeeeeeeeeeeeeee    eeeeee   e     e   e" << newscore.score;
+                newscore.level = jsonScoreObject.value("level").toString();
+                scores.append(newscore);
+            } else {
+                qInfo() << "is not an object";
+            }
+        }
+    }
+    return scores;
 }
