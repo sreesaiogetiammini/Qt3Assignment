@@ -78,7 +78,6 @@ int main(int argc , char** argv){
 
         if(player->login(userName,password)){
             view->setScene(playerScene);
-            player -> updateScore(20,2);
             QPushButton* easyGameButton = playerScene->Easy;
             QPushButton* mediumGameButton = playerScene->Medium;
             QPushButton* hardGameButton = playerScene->Hard;

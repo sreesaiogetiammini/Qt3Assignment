@@ -128,12 +128,14 @@ void user :: updateScore(int score, int level){
             QJsonObject userObject = usersArray[i].toObject();
             userObject.insert("scores", QVectorToJsonValue(scores));
             usersArray[i] = userObject;
-//            break;
+            qInfo() << "for loopppppppp";
+            qInfo() << QVectorToJsonValue(scores);
+            break;
         }
     }
 
-//    saveDataToJson();
-//    loadDataFromJson();
+    saveDataToJson();
+    loadDataFromJson();
     qInfo() << usersArray;
 }
 

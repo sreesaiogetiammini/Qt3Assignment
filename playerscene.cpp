@@ -101,9 +101,9 @@ PlayerScene::PlayerScene(user* player)
     gridLayout->addWidget(welcomePlayerL, 0, 1);
     gridLayout->addWidget(profilePicLabel, 1, 1);
     gridLayout->addWidget(playerPageButtonBox, 3, 0, 1, 3);
-    if(scores.size()!= 0 && !userName.isEmpty()){
+//    if(player -> scores.size()!= 0 && !userName.isEmpty()){
          gridLayout->addWidget(table, 4, 0, 1, 3);
-    }
+//    }
     gridLayout->addItem(new QSpacerItem(50, 10), 0, 2, 1, 1);
     QVBoxLayout *verticalLayout = new QVBoxLayout(playerWidget);
     verticalLayout->addLayout(gridLayout);
