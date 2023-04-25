@@ -77,15 +77,18 @@ PlayerScene::PlayerScene(user* player)
         for (int col = 0; col < 3; col++) {
             if(col == 0){
                 item = new QTableWidgetItem(QString(scores.at(row).date.toString()));
+                 table->setItem(row, col, item);
             }
             if(col == 1){
                 item = new QTableWidgetItem(QString(scores.at(row).level));
+                 table->setItem(row, col, item);
             }
 
             if(col == 2){
                 item = new QTableWidgetItem( QString::number(scores.at(row).score));
+                table->setItem(row, col, item);
             }
-            table->setItem(row, col, item);           // Set border for each cell
+               // Set border for each cell
             table->item(row, col)->setBackground(QColor(Qt::white));
             table->item(row, col)->setTextAlignment(Qt::AlignCenter);
             table->item(row, col)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);

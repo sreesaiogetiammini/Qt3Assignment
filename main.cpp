@@ -46,13 +46,9 @@ int main(int argc , char** argv){
     QPushButton* guestMainButton = playerScene->mainMenu;
     difficulty hardLevel = hard;
     RealGame *realgameScene = new RealGame(hardLevel,guest);
-   QPushButton* gameBackButton =  realgameScene->backButton;
+    QPushButton* gameBackButton =  realgameScene->backButton;
     QGraphicsView* view = new QGraphicsView();
     view->setScene(firstScreen);
-
-
-
-
 
 
     QPushButton* loginButton = signinScene->login;
@@ -73,9 +69,9 @@ int main(int argc , char** argv){
         view->setScene(playerScene);
     });
 
-    QObject::connect(gameBackButton, &QPushButton::clicked, [=]() {
-        view->setScene(playerScene);
-    });
+//    QObject::connect(gameBackButton, &QPushButton::clicked, [=]() {
+//        view->setScene(playerScene);
+//    });
 
     QObject::connect(loginButton, &QPushButton::clicked, [=]() {
         QString userName = signinScene->userNameLE->text();
