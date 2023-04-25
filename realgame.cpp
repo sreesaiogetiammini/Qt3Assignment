@@ -69,7 +69,6 @@ void RealGame::keyPressEvent(QKeyEvent* event)
 }
 
 void RealGame::constantElementDisplay(){
-
     // Create the text item and set its properties
     QGraphicsTextItem* gameName = new QGraphicsTextItem("Catch A Drop");
     QFont font("Arial", 56, QFont::Bold);
@@ -109,6 +108,8 @@ void RealGame::constantElementDisplay(){
     // Set the bucket object as the focus item
     bucketImg->setFocus();
 
+
+
     MusicOn = new QPushButton();
     QIcon icon(":/musicon.png"); // create QIcon object with image path
     MusicOn->setIcon(icon); // set the icon to the button
@@ -142,4 +143,24 @@ void RealGame::constantElementDisplay(){
     musicButtonsProxyWidget = this->addWidget(musicWidget);
     QPointF newPos2((sceneRect().width() - musicWidget->width()), 0);
     musicButtonsProxyWidget->setPos(newPos2);
+
+    // Create a QMediaPlayer instance
+    QMediaPlayer* player = new QMediaPlayer();
+    QAudioOutput *audioOutput = new QAudioOutput();
+    player->setAudioOutput(audioOutput);
+    player->setSource(QUrl::fromLocalFile("music.mp3"));
+
+
+
+    // Create a slot that checks if all mandatory fields are filled and enable/disable the push button accordingly
+    auto musicOn = [&]() {
+        audioOutput->setVolume(50);
+        player->play();
+    };
+
+    auto musicOff = [&]() {
+        player->pause();
+    };
+    connect(MusicOn, &QPushButton::clicked, this, musicOn);
+    connect(MusicOff, &QPushButton::clicked, this, musicOff);
 }

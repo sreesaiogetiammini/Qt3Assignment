@@ -8,6 +8,7 @@
 #include "signinscene.h"
 #include "playerscene.h"
 #include "realgame.h"
+#include <iostream>
 
 enum difficulty {
     easy = 3,
@@ -40,6 +41,8 @@ int main(int argc , char** argv){
     QPushButton* signInMainButton = signinScene->mainmenu;
     QPushButton* guestMainButton = playerScene->mainMenu;
 
+    QPushButton* loginButton = signinScene->login;
+
 
     // Connect the button to a slot that switches the scene
     QObject::connect(signUpSwitchButton, &QPushButton::clicked, [=]() {
@@ -57,25 +60,23 @@ int main(int argc , char** argv){
 
     });
 
+    QObject::connect(loginButton, &QPushButton::clicked, [=]() {
+        view->setScene(playerScene);
+    });
+
      // Connect the button to a slot that switches the scene
      QObject::connect(signUpMainButton, &QPushButton::clicked, [=]() {
-
-         view->setScene(firstScreen);
-
+        view->setScene(firstScreen);
      });
 
     // Connect the button to a slot that switches the scene
     QObject::connect(guestMainButton, &QPushButton::clicked, [=]() {
-
         view->setScene(firstScreen);
-
     });
 
      // Connect the button to a slot that switches the scene
      QObject::connect(signInMainButton, &QPushButton::clicked, [=]() {
-
          view->setScene(firstScreen);
-
      });
 
 

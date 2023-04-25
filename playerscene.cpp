@@ -1,10 +1,11 @@
 #include "playerscene.h"
-
+#include "imageWidget.h"
 
 
 PlayerScene::PlayerScene()
 {
     this->constantElementDisplay();
+    bool birthday = true;
     // Set up the labels
     QString guest = "Guest";
     welcomePlayerL = new QLabel("Welcome "+guest);
@@ -42,19 +43,19 @@ PlayerScene::PlayerScene()
     playerPageButtonBox->addButton(Easy, QDialogButtonBox::AcceptRole);
 
     int scoresSize = 10;
-    QTableWidget *table = new QTableWidget(scoresSize, 4);
+    QTableWidget *table = new QTableWidget(scoresSize, 3);
     table->setWindowTitle("Player Scores");
 
 
     // Set headers for each column
     QStringList headers;
-    headers << "Last Match Scores" << "Easy" << "Medium" << "Hard";
+    headers << "Match Date" << "Match Mode" << "Player Scores";
     table->setHorizontalHeaderLabels(headers);
 
     // Fill in the cells with data
     QTableWidgetItem *item;
     for (int row = 0; row < scoresSize; row++) {
-        for (int col = 0; col < 4; col++) {
+        for (int col = 0; col < 3; col++) {
             item = new QTableWidgetItem(QString("Row %1, Col %2").arg(row+1).arg(col+1));
             table->setItem(row, col, item);
 
@@ -85,6 +86,23 @@ PlayerScene::PlayerScene()
     // Set the position of the QVBoxLayout
     QPointF newPos((sceneRect().width()/2 - playerWidget->width())+200 , sceneRect().height()/8);
     playerProxyWidget->setPos(newPos);
+
+
+    if(birthday){
+        ImageWidget *imageWidget = new ImageWidget();
+        // Create a QGraphicsProxyWidget and set its widget to the ImageWidget
+        QGraphicsProxyWidget *birthdayProxyWidget = new QGraphicsProxyWidget();
+        birthdayProxyWidget->setWidget(imageWidget);
+        this->addItem(birthdayProxyWidget);
+        QPointF newPos((sceneRect().width() - imageWidget->width())-200, sceneRect().height()/8);
+        birthdayProxyWidget->setPos(newPos);
+        connect(imageWidget, &ImageWidget::close, [imageWidget, this,birthdayProxyWidget]() {
+            this->removeItem(birthdayProxyWidget);
+            // Delete the ImageWidget instance
+            delete imageWidget;
+        });
+    }
+
 
 }
 
@@ -136,6 +154,8 @@ void PlayerScene::constantElementDisplay(){
     // Set the bucket object as the focus item
     bucketImg->setFocus();
 
+
+
     MusicOn = new QPushButton();
     QIcon icon(":/musicon.png"); // create QIcon object with image path
     MusicOn->setIcon(icon); // set the icon to the button
@@ -169,6 +189,43 @@ void PlayerScene::constantElementDisplay(){
     musicButtonsProxyWidget = this->addWidget(musicWidget);
     QPointF newPos2((sceneRect().width() - musicWidget->width()), 0);
     musicButtonsProxyWidget->setPos(newPos2);
+
+    // Create a QMediaPlayer instance
+    QMediaPlayer* player = new QMediaPlayer();
+    QAudioOutput *audioOutput = new QAudioOutput();
+    player->setAudioOutput(audioOutput);
+    player->setSource(QUrl::fromLocalFile("music.mp3"));
+
+
+
+    // Create a slot that checks if all mandatory fields are filled and enable/disable the push button accordingly
+    auto musicOn = [&]() {
+        audioOutput->setVolume(50);
+        player->play();
+    };
+
+    auto musicOff = [&]() {
+        player->pause();
+    };
+    connect(MusicOn, &QPushButton::clicked, this, musicOn);
+    connect(MusicOff, &QPushButton::clicked, this, musicOff);
 }
 
 
+void PlayerScene:: displayBirthDayGreeting()
+{
+
+    QWidget* birthdayWidget = new QWidget();
+    QHBoxLayout *layout = new QHBoxLayout(birthdayWidget);
+    QLabel *imageLabel = new QLabel();
+    imageLabel->setPixmap(QPixmap(":/birthday.png").scaledToWidth(700).scaledToHeight(500));
+    layout->addWidget(imageLabel);
+    closeBirthdayButton = new QPushButton("Close");
+    layout->addWidget(closeBirthdayButton);
+    // Create a QGraphicsProxyWidget from the QWidget
+    birthdayProxyWidget = this->addWidget(birthdayWidget);
+    // Set the position of the QVBoxLayout
+    QPointF newPos((sceneRect().width() - birthdayWidget->width())-200, sceneRect().height()/8);
+    birthdayProxyWidget->setPos(newPos);
+
+}

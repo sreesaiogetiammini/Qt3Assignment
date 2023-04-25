@@ -7,5 +7,7 @@
         <file>musicon.png</file>
         <file>water.gif</file>
         <file>users.json</file>
+        <file>birthday.png</file>
+        <file>music.mp3</file>
     </qresource>
 </RCC>
