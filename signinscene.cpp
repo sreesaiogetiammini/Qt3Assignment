@@ -184,13 +184,13 @@ void SignInScene::constantElementDisplay(){
 
 
     player= new QMediaPlayer;
+    player->setSource(QUrl("qrc:/music.wav"));
     audioOutput = new QAudioOutput;
     audioOutput->setVolume(100.0); // set the volume level// set the output devic
     player->setAudioOutput(audioOutput);
-    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+    // connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
     audioOutput->setVolume(50);
-    player->play();
+
 
     connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
     connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
@@ -208,4 +208,5 @@ void SignInScene::constantElementDisplay(){
     QPointF newPos2((sceneRect().width() - musicWidget->width()), 0);
     musicButtonsProxyWidget->setPos(newPos2);
 }
+
 

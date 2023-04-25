@@ -10,5 +10,6 @@
         <file>birthday.png</file>
         <file>music.mp3</file>
         <file>gameover.png</file>
+        <file>music.wav</file>
     </qresource>
 </RCC>

@@ -215,3 +215,14 @@ QVector<user::scoreStruct> user :: JsonValueToQVector(const QJsonValue &jsonValu
     }
     return scores;
 }
+
+//QVector<user::globalScore> user :: getGlobalScores(){
+//    QVector<user> newScores;
+//    QVector<globalScore> globalScores;
+//    for(const QJsonValue &value : usersArray){
+//        newScores.append(value.toObject());
+//    }
+
+//    return globalScores;
+
+//}

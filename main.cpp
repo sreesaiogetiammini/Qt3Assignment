@@ -87,29 +87,29 @@ int main(int argc , char** argv){
             difficulty level = easy;
             RealGame* realgameScene = new RealGame(level, player);
             view->setScene(realgameScene);
-            QPushButton* backButton = realgameScene->backButton;
-            QObject::connect(backButton, &QPushButton::clicked, [=]() {
-                view->setScene(playerScene);
-            });
+//            QPushButton* backButton = realgameScene->backButton;
+//            QObject::connect(backButton, &QPushButton::clicked, [=]() {
+//                view->setScene(playerScene);
+//            });
         });
         QObject::connect(mediumGameButton, &QPushButton::clicked, [=]() {
             difficulty level = medium;
             RealGame* realgameScene = new RealGame(level, player);
             view->setScene(realgameScene);
-            QPushButton* backButton = realgameScene->backButton;
-            QObject::connect(backButton, &QPushButton::clicked, [=]() {
-                view->setScene(playerScene);
-            });
+//            QPushButton* backButton = realgameScene->backButton;
+//            QObject::connect(backButton, &QPushButton::clicked, [=]() {
+//                view->setScene(playerScene);
+//            });
 
         });
         QObject::connect(hardGameButton, &QPushButton::clicked, [=]() {
             difficulty level = hard;
             RealGame* realgameScene = new RealGame(level, player);
             view->setScene(realgameScene);
-            QPushButton* backButton = realgameScene->backButton;
-            QObject::connect(backButton, &QPushButton::clicked, [=]() {
-                view->setScene(playerScene);
-            });
+//            QPushButton* backButton = realgameScene->backButton;
+//            QObject::connect(backButton, &QPushButton::clicked, [=]() {
+//                view->setScene(playerScene);
+//            });
         });
         QObject::connect(guestMainButton, &QPushButton::clicked, [=]() {
             view->setScene(firstScreen);
@@ -134,30 +134,30 @@ int main(int argc , char** argv){
                 difficulty level = easy;
                  RealGame* realgameScene = new RealGame(level, player);
                 view->setScene(realgameScene);
-                 QPushButton* backButton = realgameScene->backButton;
-                 QObject::connect(backButton, &QPushButton::clicked, [=]() {
-                     view->setScene(playerScene);
-                 });
+//                 QPushButton* backButton = realgameScene->backButton;
+//                 QObject::connect(backButton, &QPushButton::clicked, [=]() {
+//                     view->setScene(playerScene);
+//                 });
 
             });
             QObject::connect(mediumGameButton, &QPushButton::clicked, [=]() {
                 difficulty level = medium;
                 RealGame* realgameScene = new RealGame(level, player);
                 view->setScene(realgameScene);
-                QPushButton* backButton = realgameScene->backButton;
-                QObject::connect(backButton, &QPushButton::clicked, [=]() {
-                    view->setScene(playerScene);
-                });
+//                QPushButton* backButton = realgameScene->backButton;
+//                QObject::connect(backButton, &QPushButton::clicked, [=]() {
+//                    view->setScene(playerScene);
+//                });
 
             });
             QObject::connect(hardGameButton, &QPushButton::clicked, [=]() {
                 difficulty level = hard;
                 RealGame* realgameScene = new RealGame(level, player);
                 view->setScene(realgameScene);
-                QPushButton* backButton = realgameScene->backButton;
-                QObject::connect(backButton, &QPushButton::clicked, [=]() {
-                    view->setScene(playerScene);
-                });
+//                QPushButton* backButton = realgameScene->backButton;
+//                QObject::connect(backButton, &QPushButton::clicked, [=]() {
+//                    view->setScene(playerScene);
+//                });
             });
             QObject::connect(guestMainButton, &QPushButton::clicked, [=]() {
                 view->setScene(firstScreen);

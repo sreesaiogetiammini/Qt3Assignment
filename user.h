@@ -30,6 +30,13 @@ public:
 
     QVector<scoreStruct> JsonValueToQVector(const QJsonValue &jsonValue);
 
+    struct globalScore{
+        QString username;
+        int highScore;
+    };
+
+//    QVector<globalScore> getGlobalScores();
+
 
 private:
     void saveDataToJson();
