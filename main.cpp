@@ -7,6 +7,7 @@
 #include "realgame.h"
 #include "user.h"
 #include <iostream>
+#include "bucket.h"
 
 enum difficulty {
     easy = 3,
@@ -18,11 +19,13 @@ user* guest ;
 user* player;
 PlayerScene* playerScene;
 
+
 int main(int argc , char** argv){
 
     qreal screenHeight = 1400;
     qreal screenWidth = 900;
     QApplication app(argc,argv);
+
 
     FirstScreen* firstScreen = new FirstScreen();
     SignUpScene* signupScene = new SignUpScene();

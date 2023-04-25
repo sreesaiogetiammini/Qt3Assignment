@@ -117,7 +117,8 @@ PlayerScene::PlayerScene(user* player)
 
 
     if(birthday){
-        ImageWidget *imageWidget = new ImageWidget();
+         ImageWidget *imageWidget = new ImageWidget();
+        //ImageWidget *imageWidget = new ImageWidget();
         // Create a QGraphicsProxyWidget and set its widget to the ImageWidget
         QGraphicsProxyWidget *birthdayProxyWidget = new QGraphicsProxyWidget();
         birthdayProxyWidget->setWidget(imageWidget);

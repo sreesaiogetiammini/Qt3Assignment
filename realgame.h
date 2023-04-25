@@ -15,13 +15,12 @@ class RealGame : public QGraphicsScene
 public:
     QWidget *backgroundItem;
     QTimer *timer;
-    bucket *bucketImg;
     QPushButton *MusicOn;
     QPushButton *MusicOff;
     QGraphicsProxyWidget *musicButtonsProxyWidget;
     QMediaPlayer* player ;
     QAudioOutput *audioOutput;
-
+    bucket *bucketImg;
 
 
 //    QLabel score;
@@ -35,7 +34,9 @@ public:
     RealGame(int level);
     void keyPressEvent(QKeyEvent *event);
     void  constantElementDisplay();
-public slots:
+    void  displaygameOver();
+
+
 };
 
 #endif // REALGAME_H

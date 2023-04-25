@@ -4,8 +4,8 @@
 
 RealGame::RealGame(int level)
 {
-    this->constantElementDisplay();
 
+    this->constantElementDisplay();
     // Add water droplets
     srand(time(NULL));
     QTimer *timer = new QTimer();
@@ -20,28 +20,30 @@ RealGame::RealGame(int level)
     });
     timer->start(1000 * level);
 
-    if(bucketImg->misses == 10){
+
+    connect(this->bucketImg, &bucket::missesReachedTen, this,&RealGame::displaygameOver);
+
+}
+
+void RealGame::displaygameOver(){
         gameOver *imageWidget = new gameOver();
         // Create a QGraphicsProxyWidget and set its widget to the ImageWidget
         QGraphicsProxyWidget *birthdayProxyWidget = new QGraphicsProxyWidget();
         birthdayProxyWidget->setWidget(imageWidget);
         this->addItem(birthdayProxyWidget);
-        QPointF newPos((sceneRect().width() - imageWidget->width())-200, sceneRect().height()/8);
+        QPointF newPos(( this->sceneRect().width() - imageWidget->width())-200, this->sceneRect().height()/8);
         birthdayProxyWidget->setPos(newPos);
-        connect(imageWidget, &ImageWidget::close, [imageWidget, this,birthdayProxyWidget]() {
+        connect(imageWidget, &gameOver::close, [imageWidget, this,birthdayProxyWidget]() {
             this->removeItem(birthdayProxyWidget);
             // Delete the ImageWidget instance
             delete imageWidget;
-        });
-    }
+       });
 }
 
 
 void RealGame::keyPressEvent(QKeyEvent* event)
 {
-//    if(flag == 0){
-//        return;
-//    }
+
     qreal moveBy = 30;
     switch (event->key()) {
     case Qt::Key_Left:
@@ -83,6 +85,7 @@ void RealGame::keyPressEvent(QKeyEvent* event)
             this->addItem(item);
         }
     }
+
 }
 
 void RealGame::constantElementDisplay(){
@@ -116,8 +119,8 @@ void RealGame::constantElementDisplay(){
     setSceneRect(0, 0, screenWidth-2, screenHeight-2);
 
     // Create the bucket object and set its pixmap
-    bucketImg = new bucket();
     // Set the bucket object as focusable
+    bucketImg = new bucket();
     bucketImg->setFlag(QGraphicsItem::ItemIsFocusable);
     addItem(bucketImg);
     // Set the bucket object as the focus item
@@ -160,14 +163,14 @@ void RealGame::constantElementDisplay(){
         MusicOn->setEnabled(true);
     };
 
-    // Create a QMediaPlayer instance
-    player = new QMediaPlayer();
-    audioOutput = new QAudioOutput();
-    player->setAudioOutput(audioOutput);
-    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
-    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
-    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
+//    // Create a QMediaPlayer instance
+//    player = new QMediaPlayer();
+//    audioOutput = new QAudioOutput();
+//    player->setAudioOutput(audioOutput);
+//    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+//    player->setSource(QUrl::fromLocalFile(":/music.mp3"));
+//    connect(MusicOn, &QPushButton::clicked, this, musicOnClick);
+//    connect(MusicOff, &QPushButton::clicked, this, musicOffClick);
 
     // Set up the layout
     QWidget *musicWidget = new QWidget();

@@ -2,7 +2,7 @@
 #pragma once
 #include "headers.h"
 #include "water.h"
-
+#include "gameOverImage.h"
 
 water::water(bucket* bucket1, int level)
 {
@@ -34,5 +34,6 @@ void water::move_droplet()
         scene()->removeItem(this);
         newBucket -> countMiss();
         delete this;
+        return;
     }
 }

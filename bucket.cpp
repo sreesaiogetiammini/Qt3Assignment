@@ -1,5 +1,6 @@
 #pragma once
 #include "bucket.h"
+#include "gameOverImage.h"
 
 bucket::bucket(QGraphicsItem *parent) : QObject(), QGraphicsPixmapItem(parent)
 {
@@ -24,9 +25,7 @@ void bucket :: increaseScore() {
 void bucket :: countMiss (){
     misses++;
     scoreLabel->setText("Misses: " + QString::number(misses));
-    if(misses == 10){
-        delete this;
-    }
+    scoreLabel->setStyleSheet("QLabel { background-color : red; border-radius: 5px; padding: 5px; color : black; width:50px; height:50px}");
 }
 
 

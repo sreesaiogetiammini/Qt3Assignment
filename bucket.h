@@ -13,6 +13,16 @@ class bucket : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
+signals:
+    void missesReachedTen();
+
+public slots:
+    void updateMisses() {
+        if (misses == 2) {
+            emit missesReachedTen();
+        }
+    }
+
 public:
     bucket(QGraphicsItem *parent = nullptr);
     QLabel* scoreLabel;
