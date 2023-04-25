@@ -74,10 +74,23 @@ void SignInScene::loginButtonClicked(){
         errorLabel->setVisible(true); // show the error label
         return;
     }
-    errorLabel->setText("Login Successful");
-    errorLabel->setStyleSheet("color: green");
-    errorLabel->setVisible(true); // show the error label
-    return;
+    user* loginUser = new user();
+    if(loginUser->login(userName,password))
+    {
+        errorLabel->setText("Login Successful");
+        errorLabel->setStyleSheet("color: green");
+        errorLabel->setVisible(true); // show the error label
+        return;
+    }
+
+    else {
+        errorLabel->setText("Login Failed");
+        errorLabel->setStyleSheet("color: red");
+        errorLabel->setVisible(true); // show the error label
+        this->resetButtonClicked();
+        return;
+    }
+
 }
 
 void SignInScene::resetButtonClicked(){

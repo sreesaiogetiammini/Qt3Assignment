@@ -13,8 +13,14 @@ public:
 
     void signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob);
     bool login(QString &username, QString &password);
-    QVector<int> scores;
-    void updateScore(int score);
+    struct scoreStruct {
+        int score;
+        QDate date;
+        int level;
+    };
+
+    QVector<scoreStruct> scores;
+    void updateScore(int score, int level);
 
 
 private:

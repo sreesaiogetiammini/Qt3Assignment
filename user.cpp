@@ -6,7 +6,7 @@
 
 user :: user (){
     loadDataFromJson();
-
+    scores = QVector<scoreStruct>();
 }
 
 void user::signup(QString &username, QString &password, QString &firstname, QString &lastname, QString &dob){
@@ -16,12 +16,14 @@ void user::signup(QString &username, QString &password, QString &firstname, QStr
     userData["username"] = username;
     userData["password"] = password;
     userData["dob"] = dob;
-    QJsonArray scoresJson;
-    for (const int& value : scores)
-    {
-        scoresJson.append(value);
-    }
-    userData["scores"] = scoresJson;
+//    QJsonArray scoresJson;
+//    for (const int& value : scores)
+//    {
+//        scoresJson.append(value);
+//    }
+//    userData["scores"] = scoresJson;
+
+    userData["scores"] = {};
 
     usersArray.append(userData);
     qInfo() << "data appended to array";
@@ -40,10 +42,13 @@ bool user :: login(QString &username, QString &password){
                     QJsonArray jsonArray = userObject["scores"].toArray();
                     for (const QJsonValue& jsonValue : jsonArray)
                     {
-                        if (jsonValue.isDouble()) // You can also use other value types, depending on your JSON data
-                        {
-                            scores.append(jsonValue.toInt());
-                        }
+
+//                            scores.append(jsonValue.toInt());
+                            scoreStruct newScore;
+                            QJsonObject scoreObject = jsonValue.toObject();
+                            newScore.score = scoreObject["score"].toInt();
+                            newScore.date = QDate::fromString(scoreObject["date"].toString(), "yyyy-MM-dd");
+                            newScore.level = scoreObject["level"].toString();
                     }
                 }
                 return true;
@@ -91,9 +96,25 @@ void user :: loadDataFromJson(){
 }
 
 
-void user :: updateScore(int score){
-    scores.append(score);
-    std::sort(scores.begin(), scores.end(), std::greater<int>());
+void user :: updateScore(int score, int level){
+//    scores.append(score);
+    scoreStruct newScore;
+    newScore.score = score;
+
+    if(level == 1) newScore.level = "easy";
+    else if(level == 2) newScore.level = "medium";
+    else newScore.level = "hard";
+
+    newScore.date = QDate::currentDate();
+
+    scores.append(newScore);
+    std::stable_sort(scores.begin(), scores.end(),
+                     [](const scoreStruct& s1, const scoreStruct& s2) {
+                         return s1.date < s2.date;
+                     });
+
+
+//    std::sort(scores.begin(), scores.end(), std::greater<int>());
 
     while(scores.size() > 10){
         scores.pop_back();
