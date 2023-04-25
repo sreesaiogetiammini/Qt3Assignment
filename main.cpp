@@ -46,7 +46,7 @@ int main(int argc , char** argv){
     QPushButton* guestMainButton = playerScene->mainMenu;
     difficulty hardLevel = hard;
     RealGame *realgameScene = new RealGame(hardLevel,guest);
-   QPushButton* gameBackButton =  realgameScene->backButton;
+    QPushButton* gameBackButton =  realgameScene->backButton;
     QGraphicsView* view = new QGraphicsView();
     view->setScene(firstScreen);
 

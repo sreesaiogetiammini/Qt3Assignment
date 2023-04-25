@@ -50,6 +50,7 @@ PlayerScene::PlayerScene(user* player)
 
     QVector<user::scoreStruct> scores = player->scores ;
     int scoresSize = scores.size();
+    qInfo() << "sizeeeeeeeeeeeeeeeeeeeeeeee:        " << scores.size();
     QTableWidget *table = new QTableWidget(scoresSize, 3);
     table->setWindowTitle("Player Scores");
 //    QSize size;
@@ -75,7 +76,10 @@ PlayerScene::PlayerScene(user* player)
     QTableWidgetItem *item;
     for (int row = 0; row < scoresSize; row++) {
         for (int col = 0; col < 3; col++) {
+            qInfo() << "coooooooooooooooooooooooooooooooooooooooool";
             if(col == 0){
+                qInfo() << "rooooooooooooooooooooooooooooooooooow";
+                qInfo() << scores.at(row).date.toString();
                 item = new QTableWidgetItem(QString(scores.at(row).date.toString()));
             }
             if(col == 1){
