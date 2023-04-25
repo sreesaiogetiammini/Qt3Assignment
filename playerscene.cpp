@@ -48,7 +48,7 @@ PlayerScene::PlayerScene(user* player)
     playerPageButtonBox->addButton(Medium, QDialogButtonBox::AcceptRole);
     playerPageButtonBox->addButton(Easy, QDialogButtonBox::AcceptRole);
 
-    QVector<user::scoreStruct> scores = player->scores ;
+    QVector<user::scoreStruct> scores = player->getScores(player -> username) ;
     int scoresSize = scores.size();
     qInfo() << "sizeeeeeeeeeeeeeeeeeeeeeeee:        " << scores.size();
     QTableWidget *table = new QTableWidget(scoresSize, 3);
@@ -76,20 +76,22 @@ PlayerScene::PlayerScene(user* player)
     QTableWidgetItem *item;
     for (int row = 0; row < scoresSize; row++) {
         for (int col = 0; col < 3; col++) {
-            qInfo() << "coooooooooooooooooooooooooooooooooooooooool";
             if(col == 0){
-                qInfo() << "rooooooooooooooooooooooooooooooooooow";
                 qInfo() << scores.at(row).date.toString();
-                item = new QTableWidgetItem(QString(scores.at(row).date.toString()));
+                QDate date = QDate::fromString(scores.at(row).date.toString(), "yyyy-MM-dd");;
+                item = new QTableWidgetItem(date.toString());
+                 table->setItem(row, col, item);
             }
             if(col == 1){
                 item = new QTableWidgetItem(QString(scores.at(row).level));
+                 table->setItem(row, col, item);
             }
 
             if(col == 2){
                 item = new QTableWidgetItem( QString::number(scores.at(row).score));
+                table->setItem(row, col, item);
             }
-            table->setItem(row, col, item);           // Set border for each cell
+               // Set border for each cell
             table->item(row, col)->setBackground(QColor(Qt::white));
             table->item(row, col)->setTextAlignment(Qt::AlignCenter);
             table->item(row, col)->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);

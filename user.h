@@ -24,6 +24,9 @@ public:
     bool isBirthday();
     QJsonValue QVectorToJsonValue(const QVector<scoreStruct>& scores);
 
+    QVector<scoreStruct> getScores(QString username);
+
+    QVector<scoreStruct> JsonValueToQVector(const QJsonValue &jsonValue);
 
 
 private:
